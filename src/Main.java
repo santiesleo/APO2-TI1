@@ -1,31 +1,88 @@
 import java.util.Scanner;
 public class Main {
+
     public static final Scanner sc = new Scanner(System.in);
+    public static final Board board = new Board();
+
     public static void main(String[] args) {
-
-        Board board = new Board();
-
-        System.out.println("1. Jugar, 2. Salir");
-        int option = sc.nextInt();
-        if(option == 1){
-            System.out.println("nombre");
-            String name = sc.nextLine();
-            System.out.println("Por favor ingrese la cantidad de filas que desea para el tablero");
-            int filas = sc.nextInt();
-            board.setRows(filas);
-            System.out.println("Por favor ingrese la cantidad de columnas para el tablero");
-            int columnas = sc.nextInt();
-            board.setColumns(columnas);
-            //añadir nodo de tablero
-            int medidas = columnas*filas;
-            for (int i = 0; i < medidas; i++){
-                board.addNode(new Square(i + 1), medidas, columnas);
-
-            }
-            board.showBoard();
-        }
-
+        Main manager = new Main();
+        manager.showMainMenu();
     }
+
+    public void showMainMenu() {
+        System.out.print("BIENVENIDO A SNAKES AND LADDERS");
+        boolean stopFlag = false;
+
+        while (!stopFlag) {
+            System.out.println("\n************************************************");
+            System.out.print("MENÚ PRINCIPAL:"
+                    + "\n[1] Jugar"
+                    + "\n[2] Salir");
+            System.out.print("\nSelect an option: ");
+            int mainOption = sc.nextInt();
+            System.out.println("************************************************");
+            switch (mainOption){
+                case 1:
+                    playGame();
+                    break;
+                case 2:
+                    stopFlag = true;
+                    System.out.println("Salida exitosa");
+                    break;
+                default:
+                    System.out.println("Tú opción no se encuentra disponible");
+                    break;
+            }
+        }
+    }
+
+    public void showGameMenu() {
+        boolean stopFlag = false;
+
+        while (!stopFlag) {
+            System.out.print("Jugador " + ""  + ", es tu turno"
+                    + "\n[1] Tirar dado"
+                    + "\n[2] Ver escaleras y serpientes");
+            System.out.print("\nSelect an option: ");
+            int mainOption = sc.nextInt();
+            switch (mainOption){
+                case 1:
+
+                    stopFlag = true;
+                    break;
+                case 2:
+
+                    break;
+                default:
+                    System.out.println("Tú opción no se encuentra disponible");
+                    break;
+            }
+        }
+    }
+
+    private static void playGame () {
+        System.out.print("Digite la cantidad de filas del tablero: ");
+        int rows = sc.nextInt();
+        board.setRows(rows);
+        System.out.print("Digite la cantidad de columnas del tablero: ");
+        int columns = sc.nextInt();
+        board.setColumns(columns);
+        System.out.print("Digite el número de serpientes: ");
+        int snakes = sc.nextInt();
+        board.setSnakes(snakes);
+        System.out.print("Digite el número de escaleras: ");
+        int ladders = sc.nextInt();
+        board.setLadders(ladders);
+        System.out.println("************************************************");
+
+        int size = columns * rows; // Dimensión del tablero
+        for (int i = 0; i < size; i++){ // Añadir un nodo al tablero
+            board.addNode(new Square(i + 1), size);
+        }
+        board.showBoard();
+    }
+
+
 
     private static String chronometer(int maxMin){
         int min = 0;

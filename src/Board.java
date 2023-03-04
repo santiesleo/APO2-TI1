@@ -4,6 +4,8 @@ public class Board {
     private Square tail;
     private int columns;
     private int rows;
+    private int snakes;
+    private int ladders;
     private int columnsT = 1;
     private int rowsT = 1;
 
@@ -23,37 +25,51 @@ public class Board {
         this.rows = rows;
     }
 
-    public void addNode(Square node, int medidas, int columnas){
-        if(head==null){
+    public int getSnakes() {
+        return snakes;
+    }
+
+    public void setSnakes(int snakes) {
+        this.snakes = snakes;
+    }
+
+    public int getLadders() {
+        return ladders;
+    }
+
+    public void setLadders(int ladders) {
+        this.ladders = ladders;
+    }
+
+    public void addNode(Square node, int size){
+        if (head == null) {
             head = node;
             tail = node;
-        }else{
+        } else {
             tail.setNext(node);
             node.setPrevious(tail);
             tail = node;
-            if((tail.getNum())==medidas){
-                addColumAndRow(head, columnas);
+            if (tail.getNum() == size) {
+                addColumAndRow(head, getColumns());
             }
         }
     }
-    private void addColumAndRow(Square current, int columnas){
-        if(current==null){
+    private void addColumAndRow(Square current, int columns){ // Añade a cada Square su respectiva columna y fila
+        if (current == null) {
             return;
         }
-        if(current.getPrevious()!=null){
-            if(current.getPrevious().getColumn()==columnas){
-                columnsT=1;
+        if (current.getPrevious() != null) {
+            if(current.getPrevious().getColumn() == columns){
+                columnsT = 1;
                 rowsT++;
             }
         }
         current.setColumn(columnsT++);
         current.setRow(rowsT);
-        //System.out.println("["+current.getNum()+"] "+current.getColumn()+" "+current.getRow());
-        addColumAndRow(current.getNext(), columnas);
+        addColumAndRow(current.getNext(), columns);
     }
     public void showBoard() {
         showBoard(tail, getRows(), getColumns());
-
     }
 
     private void showBoard(Square current, int rowCount, int columnCount) {
@@ -69,7 +85,7 @@ public class Board {
         }
     }
 
-    private Square showBoardRow(Square current, int columnCount) { //Imprime de menor a mayor (ej: 1, 2, 3, 4, 5)
+    private Square showBoardRow(Square current, int columnCount) { // Imprime de menor a mayor (ej: 1, 2, 3, 4, 5)
         Square lastNode = null;
         if (current != null && columnCount > 0) {
             System.out.print("[" + current.getNum() + "] ");
@@ -81,7 +97,7 @@ public class Board {
         return lastNode;
     }
 
-    private Square showBoardRowInvested(Square current, int columnCount) { //Imprime de mayor a menor (ej: 5, 4, 3, 2, 1)
+    private Square showBoardRowInvested(Square current, int columnCount) { // Imprime de mayor a menor (ej: 5, 4, 3, 2, 1)
         Square lastNode = null;
         if (current != null && columnCount > 0) {
             lastNode = showBoardRowInvested(current.getPrevious(), columnCount - 1);
@@ -94,9 +110,5 @@ public class Board {
         }
         return lastNode;
     }
-
-
-
-
 
 }

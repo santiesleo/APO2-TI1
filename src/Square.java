@@ -9,7 +9,6 @@ public class Square {
     private Square next;
     private Square previous;
 
-
     public Square(int num) {
         this.num = num;
         this.column = 0;
@@ -55,4 +54,5 @@ public class Square {
     public void setColumn(int column) {
         this.column = column;
     }
+
 }
