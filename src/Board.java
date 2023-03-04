@@ -41,7 +41,7 @@ public class Board {
         this.ladders = ladders;
     }
 
-    public void addNode(Square node, int size){
+    public void addNode(Square node, int size) {
         if (head == null) {
             head = node;
             tail = node;
@@ -54,12 +54,13 @@ public class Board {
             }
         }
     }
-    private void addColumAndRow(Square current, int columns){ // Añade a cada Square su respectiva columna y fila
+
+    private void addColumAndRow(Square current, int columns) { // Añade a cada Square su respectiva columna y fila
         if (current == null) {
             return;
         }
         if (current.getPrevious() != null) {
-            if(current.getPrevious().getColumn() == columns){
+            if (current.getPrevious().getColumn() == columns) {
                 columnsT = 1;
                 rowsT++;
             }
@@ -68,13 +69,14 @@ public class Board {
         current.setRow(rowsT);
         addColumAndRow(current.getNext(), columns);
     }
+
     public void showBoard() {
         showBoard(tail, getRows(), getColumns());
     }
 
     private void showBoard(Square current, int rowCount, int columnCount) {
         if (current != null && rowCount > 0) {
-            if (current.getNum() % (columnCount*2) == 0) {
+            if (current.getNum() % (columnCount * 2) == 0) {
                 System.out.println();
                 current = showBoardRow(current, columnCount);
                 showBoard(current, rowCount - 1, columnCount);
@@ -111,4 +113,10 @@ public class Board {
         return lastNode;
     }
 
+    public void GenerateSnakes(){
+        GenerateSnakes(1);
+    }
+    private void GenerateSnakes(int num){
+        System.out.println("si");
+    }
 }
