@@ -1,3 +1,7 @@
+package model;
+
+import model.Player;
+
 public class ScoreRegistry {
     private Player root;
 

@@ -1,3 +1,5 @@
+package model;
+
 public class Board {
 
     private Square head;
@@ -55,7 +57,7 @@ public class Board {
         }
     }
 
-    private void addColumAndRow(Square current, int columns) { // Añade a cada Square su respectiva columna y fila
+    private void addColumAndRow(Square current, int columns) { // Añade a cada model.Square su respectiva columna y fila
         if (current == null) {
             return;
         }

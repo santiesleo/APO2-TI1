@@ -1,4 +1,7 @@
+package ui;
+
 import java.util.Scanner;
+import model.Board;
 
 public class Main {
 
