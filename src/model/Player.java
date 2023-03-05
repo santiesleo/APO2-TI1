@@ -1,8 +1,9 @@
 package model;
 
 public class Player {
+
     //Datos
-    char name;
+    String name;
     String time;
 
     //Enlaces
@@ -10,16 +11,16 @@ public class Player {
     private Player left;
 
     //Constructor
-    public Player(char name) {
+    public Player(String name) {
         this.name = name;
         this.time = "";
     }
 
-    public char getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(char name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -46,4 +47,5 @@ public class Player {
     public void setLeft(Player left) {
         this.left = left;
     }
+
 }

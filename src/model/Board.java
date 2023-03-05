@@ -42,6 +42,7 @@ public class Board {
     public void setLadders(int ladders) {
         this.ladders = ladders;
     }
+
     public ScoreRegistry getScoreRegistry() {
         return scoreRegistry;
     }
@@ -52,7 +53,7 @@ public class Board {
 
     public void addPlayer2ScoreRegistry(Square square){
         if (square.getPlayer1() != null){
-            square.getPlayer1().setTime();
+            //square.getPlayer1().setTime();
             scoreRegistry.add(square.getPlayer1());
         } else if (square.getPlayer2() != null) {
             scoreRegistry.add(square.getPlayer2());
@@ -63,13 +64,27 @@ public class Board {
         }
     }
 
-    public void addPlayers(){
-        head.setPlayer1(new Player('*'));
-        head.setPlayer2(new Player('!'));
-        head.setPlayer3(new Player('#'));
+    public void addPlayers() {
+        addPlayers(head);
+    }
+    private void addPlayers(Square current) {
+        if (current == null) {
+            return;
+        }
+        if (head.getPlayer1() == null && head.getPlayer2() == null && head.getPlayer3() == null) {
+            head.setPlayer1(new Player("*"));
+            head.setPlayer2(new Player("!"));
+            head.setPlayer3(new Player("#"));
+        } else {
+            current.setPlayer1(new Player(""));
+            current.setPlayer2(new Player(""));
+            current.setPlayer3(new Player(""));
+        }
+        addPlayers(current.getNext());
     }
 
-    public void addNode(Square node, int size) {
+    public void addNode(int i, int size) {
+        Square node = new Square(i + 1);
         if (head == null) {
             head = node;
             tail = node;
@@ -83,7 +98,7 @@ public class Board {
         }
     }
 
-    private void addColumAndRow(Square current, int columns) { // Añade a cada model.Square su respectiva columna y fila
+    private void addColumAndRow(Square current, int columns) { // Añade a cada Square su respectiva columna y fila
         if (current == null) {
             return;
         }
@@ -118,7 +133,7 @@ public class Board {
     private Square showBoardRow(Square current, int columnCount) { // Imprime de menor a mayor (ej: 1, 2, 3, 4, 5)
         Square lastNode = null;
         if (current != null && columnCount > 0) {
-            System.out.print("[" + current.getNum() + "] ");
+            System.out.print("[" + current.getNum() + current.getPlayer1().getName() + current.getPlayer2().getName() + current.getPlayer3().getName() + "] ");
             lastNode = showBoardRow(current.getPrevious(), columnCount - 1);
         }
         if (lastNode == null) {
@@ -131,7 +146,7 @@ public class Board {
         Square lastNode = null;
         if (current != null && columnCount > 0) {
             lastNode = showBoardRowInvested(current.getPrevious(), columnCount - 1);
-            System.out.print("[" + current.getNum() + "] ");
+            System.out.print("[" + current.getNum() + current.getPlayer1().getName() + current.getPlayer2().getName() + current.getPlayer3().getName() + "] ");
         } else {
             System.out.println();
         }
