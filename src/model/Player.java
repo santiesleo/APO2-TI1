@@ -2,7 +2,7 @@ package model;
 
 public class Player {
     //Datos
-    String name;
+    char name;
     String time;
 
     //Enlaces
@@ -10,16 +10,16 @@ public class Player {
     private Player left;
 
     //Constructor
-    public Player(String name) {
+    public Player(char name) {
         this.name = name;
         this.time = "";
     }
 
-    public String getName() {
+    public char getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(char name) {
         this.name = name;
     }
 

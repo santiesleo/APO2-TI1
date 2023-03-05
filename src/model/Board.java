@@ -1,7 +1,7 @@
 package model;
 
 public class Board {
-
+    private ScoreRegistry scoreRegistry;
     private Square head;
     private Square tail;
     private int columns;
@@ -41,6 +41,32 @@ public class Board {
 
     public void setLadders(int ladders) {
         this.ladders = ladders;
+    }
+    public ScoreRegistry getScoreRegistry() {
+        return scoreRegistry;
+    }
+
+    public void setScoreRegistry(ScoreRegistry scoreRegistry) {
+        this.scoreRegistry = scoreRegistry;
+    }
+
+    public void addPlayer2ScoreRegistry(Square square){
+        if (square.getPlayer1() != null){
+            square.getPlayer1().setTime();
+            scoreRegistry.add(square.getPlayer1());
+        } else if (square.getPlayer2() != null) {
+            scoreRegistry.add(square.getPlayer2());
+        }else if (square.getPlayer3() != null) {
+            scoreRegistry.add(square.getPlayer3());
+        }else {
+
+        }
+    }
+
+    public void addPlayers(){
+        head.setPlayer1(new Player('*'));
+        head.setPlayer2(new Player('!'));
+        head.setPlayer3(new Player('#'));
     }
 
     public void addNode(Square node, int size) {

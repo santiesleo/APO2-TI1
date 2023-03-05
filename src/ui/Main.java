@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import model.Board;
 
@@ -51,7 +52,6 @@ public class Main {
             int mainOption = sc.nextInt();
             switch (mainOption) {
                 case 1:
-
                     stopFlag = true;
                     break;
                 case 2:
@@ -78,11 +78,11 @@ public class Main {
         int ladders = sc.nextInt();
         board.setLadders(ladders);
         System.out.println("************************************************");
-
         int size = columns * rows; // Dimensión del tablero
         for (int i = 0; i < size; i++) { // Añadir un nodo al tablero
             board.addNode(new Square(i + 1), size);
         }
+        board.addPlayers();
         board.showBoard();
     }
 
