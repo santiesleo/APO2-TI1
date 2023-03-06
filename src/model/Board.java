@@ -1,11 +1,14 @@
 package model;
 
+import java.util.Random;
+
 public class Board {
     private ScoreRegistry scoreRegistry;
     private Square head;
     private Square tail;
     private int columns;
     private int rows;
+    private int measures;
     private int snakes;
     private int ladders;
     private int columnsT = 1;
@@ -26,6 +29,10 @@ public class Board {
     public void setRows(int rows) {
         this.rows = rows;
     }
+
+    public int getMeasures() {return measures;}
+
+    public void setMeasures(int measures) {this.measures = measures;}
 
     public int getSnakes() {
         return snakes;
@@ -51,15 +58,15 @@ public class Board {
         this.scoreRegistry = scoreRegistry;
     }
 
-    public void addPlayer2ScoreRegistry(Square square){
-        if (square.getPlayer1() != null){
+    public void addPlayer2ScoreRegistry(Square square) {
+        if (square.getPlayer1() != null) {
             //square.getPlayer1().setTime();
             scoreRegistry.add(square.getPlayer1());
         } else if (square.getPlayer2() != null) {
             scoreRegistry.add(square.getPlayer2());
-        }else if (square.getPlayer3() != null) {
+        } else if (square.getPlayer3() != null) {
             scoreRegistry.add(square.getPlayer3());
-        }else {
+        } else {
 
         }
     }
@@ -67,6 +74,7 @@ public class Board {
     public void addPlayers() {
         addPlayers(head);
     }
+
     private void addPlayers(Square current) {
         if (current == null) {
             return;
@@ -160,24 +168,69 @@ public class Board {
         return lastNode;
     }
 
-    private String showPlayers(Square current){
+    private String showPlayers(Square current) {
         String players = "";
-        if(current.getPlayer1() != null){
+        if (current.getPlayer1() != null) {
             players = players + current.getPlayer1().getName();
         }
-        if(current.getPlayer2() != null){
+        if (current.getPlayer2() != null) {
             players = players + current.getPlayer2().getName();
         }
-        if(current.getPlayer3() != null){
+        if (current.getPlayer3() != null) {
             players = players + current.getPlayer3().getName();
         }
         return players;
     }
 
-    public void GenerateSnakes(){
-        GenerateSnakes(1);
+    public void GenerateSnakes() {//Genera los dos numeros aleatorios a buscar en los nodos para las serpientes
+        Random random = new Random();
+        int num1 = random.nextInt(getMeasures() - 1) + 1;
+        int num2 = random.nextInt(getMeasures() - 1) + 1;
+        if (num2 != num1) {
+            searchNodes(num1, num2, head, head);
+        } else {
+            GenerateSnakes();
+        }
     }
-    private void GenerateSnakes(int num){
-        System.out.println("si");
+
+    private void searchNodes(int num1, int num2, Square current1, Square current2) {//Busca los nodos comparando con los numeros aletorios
+        if (current1.getNum() == num1 && current2.getNum() == num2) {
+            confirmStatus(current1, current2);
+
+        } else if (current1.getNum() == num1 && current2.getNum() != num2) {
+            searchNodes(num1, num2, current1, current2.getNext());
+
+        } else if (current1.getNum() != num1 && current2.getNum() == num2) {
+            searchNodes(num1, num2, current1.getNext(), current2);
+
+        } else {
+            searchNodes(num1, num2, current1.getNext(), current2.getNext());
+        }
+    }
+
+    private void confirmStatus(Square current1, Square current2) {// se asegura de que el nodo no sea previamente una columna o una serpiente
+        if (current1.getStatus() != "" || current2.getStatus() != "") {
+            GenerateSnakes();
+        } else {
+            compareRows(current1, current2);
+        }
+    }
+
+    private void compareRows(Square current1, Square current2) {//compara que los nodos esten posicionados en filas distintas
+        if (current1.getRow() == current2.getRow()) {
+            GenerateSnakes();
+        } else if (current1.getRow() != current2.getRow()) {
+            if (current1.getRow() > current2.getRow()) {
+                GenerateSnakes(current1, current2);
+            } else {
+                GenerateSnakes(current2, current1);
+            }
+        }
+    }
+
+    private void GenerateSnakes(Square current1, Square current2) {//Genera la union entre casillas para convertirse en serpiente
+        current1.setSnake_Ladder(current2);
+        System.out.println("cabeza de la serpiente " + current1.getNum());
+        System.out.println("cola de la serpiente " + current1.getSnake_Ladder().getNum());
     }
 }

@@ -71,6 +71,7 @@ public class Main {
         System.out.print("Enter the number of columns on the board: ");
         int columns = sc.nextInt();
         board.setColumns(columns);
+        board.setMeasures(rows*columns);
         System.out.print("Enter the number of snakes: ");
         int snakes = sc.nextInt();
         board.setSnakes(snakes);
@@ -83,6 +84,10 @@ public class Main {
             board.addNode(i , size);
         }
         board.addPlayers(); // Agrega los 3 jugadores
+        board.showBoard();
+        System.out.println();
+        board.GenerateSnakes();
+        System.out.println();
         board.showBoard();
     }
 
