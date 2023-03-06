@@ -3,51 +3,20 @@ package model;
 import java.util.Random;
 
 public class Board {
+
+    public static final Random random = new Random();
     private ScoreRegistry scoreRegistry;
     private Square head;
     private Square tail;
-    private Player player1;
-    private Player player2;
-    private Player player3;
-    int turn = 1;
     private int columns;
     private int rows;
+    private int measures;
     private int snakes;
     private int ladders;
     private int columnsT = 1;
     private int rowsT = 1;
-
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
-    }
-
-    public Player getPlayer3() {
-        return player3;
-    }
-
-    public void setPlayer3(Player player3) {
-        this.player3 = player3;
-    }
-
-    public int getTurn() {
-        return turn;
-    }
-
-    public void setTurn(int turn) {
-        this.turn = turn;
-    }
+    private int s = 65;
+    private int l = 1;
 
     public int getColumns() {
         return columns;
@@ -63,6 +32,14 @@ public class Board {
 
     public void setRows(int rows) {
         this.rows = rows;
+    }
+
+    public int getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(int measures) {
+        this.measures = measures;
     }
 
     public int getSnakes() {
@@ -89,90 +66,31 @@ public class Board {
         this.scoreRegistry = scoreRegistry;
     }
 
-    public String manageTurn(int turn){
-        String message = "";
-        if(getTurn()== 1){
-            message = "Jugador " + player1.getName() + " it's your turn";
-            setTurn(2);
-        }else if(getTurn() == 2){
-            message = "Jugador " + player2.getName() + " it's your turn";
-            setTurn(3);
-        }else {
-            message = "Jugador " + player3.getName() + " it's your turn";
-            setTurn(1);
-        }
-        return message;
+    public int getS() {
+        return s;
     }
 
-    public int throwDice(){
-        Random rand = new Random();
-        return rand.nextInt(6) + 1;
+    public void setS(int s) {
+        this.s += s;
     }
 
-    public void searchPlayerSquare(Player goal){
-        searchPlayerSquare(head, goal);
+    public int getL() {
+        return l;
     }
 
-    private Square searchPlayerSquare(Square current, Player goal){
-        if(current == null){
-            return null;
-        }if(current.getPlayer1() == goal){
-            return current;
-        } else if (current.getPlayer2() == goal) {
-            return current;
-        } else if (current.getPlayer3() == goal) {
-            return current;
-        }
-        return searchPlayerSquare(current.getNext(), goal);
+    public void setL(int l) {
+        this.l += l;
     }
 
-    public Square calculateSquares2Move(Square current, int squares2Advance){
-        if(current == tail) {
-            return tail;
-        } else if (squares2Advance == 0) {
-            return current;
-        }
-        return calculateSquares2Move(current.getNext(), squares2Advance - 1);
-    }
-
-    public boolean movePlayer(Square current, Square squareToMove, Player playerToMove){
-        if(squareToMove == tail){
-            if(current.getPlayer1() == playerToMove){
-                tail.setPlayer1(playerToMove);
-                current.setPlayer1(null);
-            }else if(current.getPlayer2() == playerToMove){
-                tail.setPlayer2(playerToMove);
-                current.setPlayer2(null);
-            }else if(current.getPlayer3() == playerToMove){
-                tail.setPlayer3(playerToMove);
-                current.setPlayer3(null);
-            }
-            return true;
-        } else {
-            if(current.getPlayer1() == playerToMove){
-                squareToMove.setPlayer1(playerToMove);
-                current.setPlayer1(null);
-            }else if(current.getPlayer2() == playerToMove){
-                squareToMove.setPlayer2(playerToMove);
-                current.setPlayer2(null);
-            }else if(current.getPlayer3() == playerToMove){
-                squareToMove.setPlayer3(playerToMove);
-                current.setPlayer3(null);
-            }
-            return false;
-        }
-    }
-
-    //NO ESTÁ TERMINADO!!!
-    public void addPlayer2ScoreRegistry(Square square){
-        if (square.getPlayer1() != null){
+    public void addPlayer2ScoreRegistry(Square square) {
+        if (square.getPlayer1() != null) {
             //square.getPlayer1().setTime();
             scoreRegistry.add(square.getPlayer1());
         } else if (square.getPlayer2() != null) {
             scoreRegistry.add(square.getPlayer2());
-        }else if (square.getPlayer3() != null) {
+        } else if (square.getPlayer3() != null) {
             scoreRegistry.add(square.getPlayer3());
-        }else {
+        } else {
 
         }
     }
@@ -180,20 +98,15 @@ public class Board {
     public void addPlayers() {
         addPlayers(head);
     }
+
     private void addPlayers(Square current) {
         if (current == null) {
             return;
         }
         if (head.getPlayer1() == null && head.getPlayer2() == null && head.getPlayer3() == null) {
-            Player player1 = new Player("*");
-            Player player2 = new Player("!");
-            Player player3 = new Player("2");
-            setPlayer1(player1);
-            setPlayer2(player2);
-            setPlayer3(player3);
-            head.setPlayer1(player1);
-            head.setPlayer2(player2);
-            head.setPlayer3(player3);
+            head.setPlayer1(new Player("*"));
+            head.setPlayer2(new Player("!"));
+            head.setPlayer3(new Player("#"));
         } else {
             current.setPlayer1(new Player(""));
             current.setPlayer2(new Player(""));
@@ -202,15 +115,15 @@ public class Board {
         addPlayers(current.getNext());
     }
 
-    public void addSquare(int i, int size) {
-        Square square = new Square(i + 1);
+    public void addNode(int i, int size) {
+        Square node = new Square(i + 1);
         if (head == null) {
-            head = square;
-            tail = square;
+            head = node;
+            tail = node;
         } else {
-            tail.setNext(square);
-            square.setPrevious(tail);
-            tail = square;
+            tail.setNext(node);
+            node.setPrevious(tail);
+            tail = node;
             if (tail.getNum() == size) {
                 addColumAndRow(head, getColumns());
             }
@@ -279,24 +192,147 @@ public class Board {
         return lastNode;
     }
 
-    private String showPlayers(Square current){
+    private String showPlayers(Square current) {
         String players = "";
-        if(current.getPlayer1() != null){
+        if (current.getPlayer1() != null) {
             players = players + current.getPlayer1().getName();
         }
-        if(current.getPlayer2() != null){
+        if (current.getPlayer2() != null) {
             players = players + current.getPlayer2().getName();
         }
-        if(current.getPlayer3() != null){
+        if (current.getPlayer3() != null) {
             players = players + current.getPlayer3().getName();
         }
         return players;
     }
 
-    public void GenerateSnakes(){
-        GenerateSnakes(1);
+    private void searchNodes(int start, int end, Square current1, Square current2, String type) {// Busca los nodos comparando con los números aleatorios
+        if (current1.getNum() == start && current2.getNum() == end) {
+            confirmStatus(current1, current2, type);
+
+        } else if (current1.getNum() == start && current2.getNum() != end) {
+            searchNodes(start, end, current1, current2.getNext(), type);
+
+        } else if (current1.getNum() != start && current2.getNum() == end) {
+            searchNodes(start, end, current1.getNext(), current2, type);
+
+        } else {
+            searchNodes(start, end, current1.getNext(), current2.getNext(), type);
+        }
     }
-    private void GenerateSnakes(int num){
-        System.out.println("si");
+
+    private void confirmStatus(Square current1, Square current2, String type) {// Asegura que en la casilla no halla ninguna escalera ni serpiente
+        if (current1.getStatus().equals("") && current2.getStatus().equals("")) {
+            compareRows(current1, current2, type);
+        } else {
+            if (type.equals("SNAKES")){
+                generateSnakes();
+            } else if (type.equals("LADDERS")) {
+                generateLadders();
+            }
+        }
     }
+
+    private void compareRows(Square current1, Square current2, String type) { // Compara que los nodos estén posicionados en filas distintas
+        if (type.equals("SNAKES")){
+            if (current1.getRow() == current2.getRow()) {
+                generateSnakes();
+            } else if (current1.getRow() != current2.getRow()) {
+                if (current1.getRow() > current2.getRow()) {
+                    generateSnakes(current1, current2);
+                } else {
+                    generateSnakes(current2, current1);
+                }
+            }
+        } else if (type.equals("LADDERS")) {
+            if (current1.getRow() == current2.getRow()) {
+                generateLadders();
+            } else if (current1.getRow() != current2.getRow()) {
+                if (current1.getRow() < current2.getRow()) {
+                    generateLadders(current1, current2);
+                } else {
+                    generateLadders(current2, current1);
+                }
+            }
+        }
+    }
+
+    public void generateSnakes() { // Genera los dos números aleatorios a buscar en los nodos para las serpientes
+        int start = random.nextInt(getMeasures() - 2) + 2;
+        int end = random.nextInt(getMeasures() - 2) + 2;
+        if (end != start) {
+            searchNodes(start, end, head, head, "SNAKES");
+        } else {
+            generateSnakes();
+        }
+    }
+
+    public void generateLadders() { // Genera los dos números aleatorios a buscar en los nodos para las serpientes
+        int start = random.nextInt(getMeasures() - 2) + 2;
+        int end = random.nextInt(getMeasures() - 2) + 2;
+        if (end != start) {
+            searchNodes(start, end, head, head, "LADDERS");
+        } else {
+            generateLadders();
+        }
+    }
+
+    private void generateSnakes(Square current1, Square current2) {//Genera la union entre casillas para convertirse en serpiente
+        current1.setStatus(String.valueOf((char) s));
+        current2.setStatus(String.valueOf((char) s));
+        current1.setSnake_Ladder(current2);
+        System.out.println("cabeza de la serpiente " + current1.getNum());
+        System.out.println("cola de la serpiente " + current1.getSnake_Ladder().getNum());
+    }
+
+    private void generateLadders(Square current1, Square current2) {//Genera la union entre casillas para convertirse en escalera
+        current1.setStatus(String.valueOf(l));
+        current2.setStatus(String.valueOf(l));
+        current1.setSnake_Ladder(current2);
+        System.out.println("inicio de la escalera " + current1.getNum());
+        System.out.println("fin de la escalera " + current1.getSnake_Ladder().getNum());
+    }
+
+    public void showSnakesAndLadders() {
+        showSnakesAndLadders(tail, getRows(), getColumns());
+    }
+    private void showSnakesAndLadders(Square current, int rowCount, int columnCount) {
+        if (current != null && rowCount > 0) {
+            if (current.getNum() % (columnCount * 2) == 0) {
+                System.out.println();
+                current = showSnakesAndLaddersBoardRow(current, columnCount);
+                showSnakesAndLadders(current, rowCount - 1, columnCount);
+            } else {
+                current = showSnakesAndLaddersRowInvested(current, columnCount);
+                showSnakesAndLadders(current, rowCount - 1, columnCount);
+            }
+        }
+    }
+
+    private Square showSnakesAndLaddersBoardRow(Square current, int columnCount) {
+        Square lastNode = null;
+        if (current != null && columnCount > 0) {
+            System.out.print("[" + current.getStatus() + "] ");
+            lastNode = showSnakesAndLaddersBoardRow(current.getPrevious(), columnCount - 1);
+        }
+        if (lastNode == null) {
+            lastNode = current;
+        }
+        return lastNode;
+    }
+
+    private Square showSnakesAndLaddersRowInvested(Square current, int columnCount) {
+        Square lastNode = null;
+        if (current != null && columnCount > 0) {
+            lastNode = showSnakesAndLaddersRowInvested(current.getPrevious(), columnCount - 1);
+            System.out.print("[" + current.getStatus() + "] ");
+        } else {
+            System.out.println();
+        }
+        if (lastNode == null) {
+            lastNode = current;
+        }
+        return lastNode;
+    }
+
 }

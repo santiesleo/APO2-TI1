@@ -1,6 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import model.Board;
 
@@ -71,6 +70,7 @@ public class Main {
         System.out.print("Enter the number of columns on the board: ");
         int columns = sc.nextInt();
         board.setColumns(columns);
+        board.setMeasures(rows*columns);
         System.out.print("Enter the number of snakes: ");
         int snakes = sc.nextInt();
         board.setSnakes(snakes);
@@ -78,12 +78,23 @@ public class Main {
         int ladders = sc.nextInt();
         board.setLadders(ladders);
         System.out.println("************************************************");
-        int size = columns * rows; // Dimensión del tablero
-        for (int i = 0; i < size; i++) { // Añadir un nodo al tablero
-            board.addSquare(i , size);
+        int measures = columns * rows; // Medidas del tablero
+        board.setMeasures(measures);
+        for (int i = 0; i < measures; i++) { // Añadir un nodo al tablero
+            board.addNode(i , measures);
         }
         board.addPlayers(); // Agrega los 3 jugadores
         board.showBoard();
+        System.out.println();
+        for (int i = 0; i < snakes; i++) { // Añadir una serpiente al tablero
+            board.generateSnakes();
+            board.setS(1);
+        }
+        for (int i = 0; i < ladders; i++) { // Añadir una serpiente al tablero
+            board.generateLadders();
+            board.setL(1);
+        }
+        board.showSnakesAndLadders();
     }
 
 
