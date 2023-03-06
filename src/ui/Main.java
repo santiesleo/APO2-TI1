@@ -2,6 +2,8 @@ package ui;
 
 import java.util.Scanner;
 import model.Board;
+import model.Player;
+import model.Square;
 
 public class Main {
 
@@ -28,6 +30,7 @@ public class Main {
             switch (mainOption) {
                 case 1:
                     playGame();
+                    showGameMenu();
                     break;
                 case 2:
                     stopFlag = true;
@@ -44,13 +47,27 @@ public class Main {
         boolean stopFlag = false;
 
         while (!stopFlag) {
-            System.out.print("Player " + "" + ", it's yout turn"
+            String message = manageTurn(board.manageTurn()); //Llamada al método manage turn de la clase Board que le envía el turno a la clase manage turn de la clase Main
+            System.out.print( message
                     + "\n[1] Throw dice"
                     + "\n[2] Watch ladders and snakes");
             System.out.print("\nSelect an option: ");
             int mainOption = sc.nextInt();
             switch (mainOption) {
                 case 1:
+                    int squaresToMove = board.throwDice();
+                    System.out.println("Move " + squaresToMove + " squares.");
+                    int turn = board.manageTurn();
+                    Player player = board.manageTurnPlayer(turn);
+                    Square current = board.searchPlayerSquare(player);
+                    Square square2Move = board.calculateSquares2Move(current, squaresToMove);
+                    boolean flag = board.movePlayer(current, square2Move, player);
+                    if(flag == true){ //Se valida si el jugador llegó a la última casilla
+                        System.out.println("Se movió"); //HAY QUE CORREGIR ESTO!!!
+                    }else {
+                        System.out.println("Se movió");
+                    }
+                    board.showBoard();
                     stopFlag = true;
                     break;
                 case 2:
@@ -61,6 +78,18 @@ public class Main {
                     break;
             }
         }
+    }
+
+    public String manageTurn(int turn){
+        String message = "";
+        if(turn == 1){
+            message = "Player # , it's your turn.";
+        }else if(turn == 2){
+            message = "Player % , it's your turn.";
+        }else {
+            message = "Player $ , it's your turn.";
+        }
+        return message;
     }
 
     private static void playGame() {

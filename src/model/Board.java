@@ -118,19 +118,31 @@ public class Board {
         this.l += l;
     }
 
-    public String manageTurn(){
-        String message = "";
+    public int manageTurn(){
+        int turn;
         if(getTurn()== 1){
-            message = "Jugador " + player1.getName() + " it's your turn";
+            turn = 1;
+        }else if(getTurn() == 2){
+            turn = 2;
+        }else {
+            turn = 3;
+        }
+        return turn;
+    }
+
+    public Player manageTurnPlayer(int turn){
+        Player player;
+        if(getTurn()== 1){
+            player = player1;
             setTurn(2);
         }else if(getTurn() == 2){
-            message = "Jugador " + player2.getName() + " it's your turn";
+            player = player2;
             setTurn(3);
         }else {
-            message = "Jugador " + player3.getName() + " it's your turn";
+            player = player3;
             setTurn(1);
         }
-        return message;
+        return player;
     }
 
     public int throwDice(){
@@ -138,8 +150,8 @@ public class Board {
         return rand.nextInt(6) + 1;
     }
 
-    public void searchPlayerSquare(Player goal){
-        searchPlayerSquare(head, goal);
+    public Square searchPlayerSquare(Player goal){
+        return searchPlayerSquare(head, goal);
     }
 
     private Square searchPlayerSquare(Square current, Player goal){
@@ -215,9 +227,9 @@ public class Board {
             return;
         }
         if (head.getPlayer1() == null && head.getPlayer2() == null && head.getPlayer3() == null) {
-            Player player1 = new Player("*");
-            Player player2 = new Player("!");
-            Player player3 = new Player("2");
+            Player player1 = new Player("#");
+            Player player2 = new Player("%");
+            Player player3 = new Player("$");
             setPlayer1(player1);
             setPlayer2(player2);
             setPlayer3(player3);
