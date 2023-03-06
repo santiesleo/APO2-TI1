@@ -80,7 +80,7 @@ public class Main {
         System.out.println("************************************************");
         int size = columns * rows; // Dimensión del tablero
         for (int i = 0; i < size; i++) { // Añadir un nodo al tablero
-            board.addNode(i , size);
+            board.addSquare(i , size);
         }
         board.addPlayers(); // Agrega los 3 jugadores
         board.showBoard();
