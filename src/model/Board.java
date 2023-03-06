@@ -134,7 +134,8 @@ public class Board {
         Square lastNode = null;
         if (current != null && columnCount > 0) {
             String players = showPlayers(current);
-            System.out.print("[" + current.getNum() + players + "] ");
+            String message = String.format("%7s", "[" + current.getNum() + players + "] ");
+            System.out.print(message);
             lastNode = showBoardRow(current.getPrevious(), columnCount - 1);
         }
         if (lastNode == null) {
@@ -148,7 +149,8 @@ public class Board {
         if (current != null && columnCount > 0) {
             lastNode = showBoardRowInvested(current.getPrevious(), columnCount - 1);
             String players = showPlayers(current);
-            System.out.print("[" + current.getNum() + players + "] ");
+            String message = String.format("%7s", "[" + current.getNum() + players + "] ");
+            System.out.print(message);
         } else {
             System.out.println();
         }
