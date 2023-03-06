@@ -13,7 +13,7 @@ public class Square {
     //Enlaces
     private Square next;
     private Square previous;
-    private Square Snake_Ladder;
+    private Square snake_Ladder;
 
     public Square(int num) {
         this.num = num;
@@ -98,10 +98,10 @@ public class Square {
     }
 
     public Square getSnake_Ladder() {
-        return Snake_Ladder;
+        return snake_Ladder;
     }
 
     public void setSnake_Ladder(Square snake_Ladder) {
-        Snake_Ladder = snake_Ladder;
+        this.snake_Ladder = snake_Ladder;
     }
 }
