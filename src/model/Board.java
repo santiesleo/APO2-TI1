@@ -133,7 +133,8 @@ public class Board {
     private Square showBoardRow(Square current, int columnCount) { // Imprime de menor a mayor (ej: 1, 2, 3, 4, 5)
         Square lastNode = null;
         if (current != null && columnCount > 0) {
-            System.out.print("[" + current.getNum() + current.getPlayer1().getName() + current.getPlayer2().getName() + current.getPlayer3().getName() + "] ");
+            String players = showPlayers(current);
+            System.out.print("[" + current.getNum() + players + "] ");
             lastNode = showBoardRow(current.getPrevious(), columnCount - 1);
         }
         if (lastNode == null) {
@@ -146,7 +147,8 @@ public class Board {
         Square lastNode = null;
         if (current != null && columnCount > 0) {
             lastNode = showBoardRowInvested(current.getPrevious(), columnCount - 1);
-            System.out.print("[" + current.getNum() + current.getPlayer1().getName() + current.getPlayer2().getName() + current.getPlayer3().getName() + "] ");
+            String players = showPlayers(current);
+            System.out.print("[" + current.getNum() + players + "] ");
         } else {
             System.out.println();
         }
@@ -154,6 +156,20 @@ public class Board {
             lastNode = current;
         }
         return lastNode;
+    }
+
+    private String showPlayers(Square current){
+        String players = "";
+        if(current.getPlayer1() != null){
+            players = players + current.getPlayer1().getName();
+        }
+        if(current.getPlayer2() != null){
+            players = players + current.getPlayer2().getName();
+        }
+        if(current.getPlayer3() != null){
+            players = players + current.getPlayer3().getName();
+        }
+        return players;
     }
 
     public void GenerateSnakes(){

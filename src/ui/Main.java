@@ -15,14 +15,14 @@ public class Main {
     }
 
     public void showMainMenu() {
-        System.out.print("BIENVENIDO A SNAKES AND LADDERS");
+        System.out.print("WELCOME TO SNAKES AND LADDERS");
         boolean stopFlag = false;
 
         while (!stopFlag) {
             System.out.println("\n************************************************");
-            System.out.print("MENÚ PRINCIPAL:"
-                    + "\n[1] Jugar"
-                    + "\n[2] Salir");
+            System.out.print("MAIN MENU:"
+                    + "\n[1] Play"
+                    + "\n[2] Exit");
             System.out.print("\nSelect an option: ");
             int mainOption = sc.nextInt();
             System.out.println("************************************************");
@@ -32,10 +32,10 @@ public class Main {
                     break;
                 case 2:
                     stopFlag = true;
-                    System.out.println("Salida exitosa");
+                    System.out.println("Exit successfull");
                     break;
                 default:
-                    System.out.println("Tú opción no se encuentra disponible");
+                    System.out.println("Option not available");
                     break;
             }
         }
@@ -45,9 +45,9 @@ public class Main {
         boolean stopFlag = false;
 
         while (!stopFlag) {
-            System.out.print("Jugador " + "" + ", es tu turno"
-                    + "\n[1] Tirar dado"
-                    + "\n[2] Ver escaleras y serpientes");
+            System.out.print("Player " + "" + ", it's yout turn"
+                    + "\n[1] Throw dice"
+                    + "\n[2] Watch ladders and snakes");
             System.out.print("\nSelect an option: ");
             int mainOption = sc.nextInt();
             switch (mainOption) {
@@ -58,23 +58,23 @@ public class Main {
 
                     break;
                 default:
-                    System.out.println("Tú opción no se encuentra disponible");
+                    System.out.println("Option not available");
                     break;
             }
         }
     }
 
     private static void playGame() {
-        System.out.print("Digite la cantidad de filas del tablero: ");
+        System.out.print("Enter the number of rows on the board: ");
         int rows = sc.nextInt();
         board.setRows(rows);
-        System.out.print("Digite la cantidad de columnas del tablero: ");
+        System.out.print("Enter the number of columns on the board: ");
         int columns = sc.nextInt();
         board.setColumns(columns);
-        System.out.print("Digite el número de serpientes: ");
+        System.out.print("Enter the number of snakes: ");
         int snakes = sc.nextInt();
         board.setSnakes(snakes);
-        System.out.print("Digite el número de escaleras: ");
+        System.out.print("Enter the number of ladders: ");
         int ladders = sc.nextInt();
         board.setLadders(ladders);
         System.out.println("************************************************");
