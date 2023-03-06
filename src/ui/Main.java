@@ -81,7 +81,7 @@ public class Main {
         int measures = columns * rows; // Medidas del tablero
         board.setMeasures(measures);
         for (int i = 0; i < measures; i++) { // Añadir un nodo al tablero
-            board.addNode(i , measures);
+            board.addSquare(i , measures);
         }
         board.addPlayers(); // Agrega los 3 jugadores
         board.showBoard();
