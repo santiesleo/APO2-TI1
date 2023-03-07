@@ -192,13 +192,25 @@ public class Board {
             return true;
         } else {
             if (current.getPlayer1() == playerToMove) {
-                squareToMove.setPlayer1(playerToMove);
+                if (squareToMove.getSnake_Ladder() != null) {
+                    squareToMove.getSnake_Ladder().setPlayer1(playerToMove);
+                } else {
+                    squareToMove.setPlayer1(playerToMove);
+                }
                 current.setPlayer1(null);
             } else if (current.getPlayer2() == playerToMove) {
-                squareToMove.setPlayer2(playerToMove);
+                if (squareToMove.getSnake_Ladder() != null) {
+                    squareToMove.getSnake_Ladder().setPlayer2(playerToMove);
+                } else {
+                    squareToMove.setPlayer2(playerToMove);
+                }
                 current.setPlayer2(null);
             } else if (current.getPlayer3() == playerToMove) {
-                squareToMove.setPlayer3(playerToMove);
+                if (squareToMove.getSnake_Ladder() != null) {
+                    squareToMove.getSnake_Ladder().setPlayer3(playerToMove);
+                } else {
+                    squareToMove.setPlayer3(playerToMove);
+                }
                 current.setPlayer3(null);
             }
             return false;

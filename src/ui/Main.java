@@ -48,7 +48,7 @@ public class Main {
 
         while (!stopFlag) {
             String message = manageTurn(board.manageTurn()); //Llamada al método manage turn de la clase Board que le envía el turno a la clase manage turn de la clase Main
-            System.out.print( message
+            System.out.print( message // Imprime turno
                     + "\n[1] Throw dice"
                     + "\n[2] Watch ladders and snakes");
             System.out.print("\nSelect an option: ");
