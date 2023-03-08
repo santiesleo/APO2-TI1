@@ -134,15 +134,22 @@ public class Board {
         Player player;
         if (getTurn() == 1) {
             player = player1;
-            setTurn(2);
         } else if (getTurn() == 2) {
             player = player2;
-            setTurn(3);
         } else {
             player = player3;
-            setTurn(1);
         }
         return player;
+    }
+
+    public void passTurn(){
+        if (getTurn() == 1) {
+            setTurn(2);
+        } else if (getTurn() == 2) {
+            setTurn(3);
+        } else {
+            setTurn(1);
+        }
     }
 
     public int throwDice() {

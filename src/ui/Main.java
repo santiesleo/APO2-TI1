@@ -3,8 +3,6 @@ package ui;
 import java.util.Scanner;
 
 import model.Board;
-import model.Player;
-import model.Square;
 
 public class Main {
 
@@ -30,6 +28,9 @@ public class Main {
             System.out.println("************************************************");
             switch (mainOption) {
                 case 1:
+                    long startTime = System.currentTimeMillis();
+                    long endTime = System.currentTimeMillis();
+                    long totalTime = 0;
                     startGame();
                     showGameMenu();
                     break;
@@ -113,13 +114,13 @@ public class Main {
         int squaresToMove = board.throwDice();
         System.out.print("\nMove " + squaresToMove + " squares.\n");
         int turn = board.manageTurn();
-        Player player = board.manageTurnPlayer(turn);
-        Square current = board.searchPlayerSquare(player);
-        Square square2Move = board.calculateSquares2Move(current, squaresToMove);
-        boolean flag = board.movePlayer(current, square2Move, player);
+        boolean flag = board.movePlayer(board.searchPlayerSquare(board.manageTurnPlayer(turn)),
+                board.calculateSquares2Move(board.searchPlayerSquare(board.manageTurnPlayer(turn)),
+                        squaresToMove), board.manageTurnPlayer(turn));
         if (flag == true) { //Se valida si el jugador llegó a la última casilla
             System.out.println("Se movió"); //HAY QUE CORREGIR ESTO!!!
         } else {
+            board.passTurn();
             System.out.println("Se movió");
         }
     }
