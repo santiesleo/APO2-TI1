@@ -423,16 +423,12 @@ public class Board {
         current1.setStatus(String.valueOf((char) s));
         current2.setStatus(String.valueOf((char) s));
         current1.setSnake_Ladder(current2);
-        System.out.println("cabeza de la serpiente " + current1.getNum());
-        System.out.println("cola de la serpiente " + current1.getSnake_Ladder().getNum());
     }
 
     private void generateLadders(Square current1, Square current2) {//Genera la union entre casillas para convertirse en escalera
         current1.setStatus(String.valueOf(l));
         current2.setStatus(String.valueOf(l));
         current1.setSnake_Ladder(current2);
-        System.out.println("inicio de la escalera " + current1.getNum());
-        System.out.println("fin de la escalera " + current1.getSnake_Ladder().getNum());
     }
 
     public void showSnakesAndLadders() {
@@ -455,7 +451,8 @@ public class Board {
     private Square showSnakesAndLaddersBoardRow(Square current, int columnCount) {
         Square lastNode = null;
         if (current != null && columnCount > 0) {
-            System.out.print("[" + current.getStatus() + "] ");
+            String message = String.format("%7s", "[" + current.getStatus() + "] ");
+            System.out.print(message);
             lastNode = showSnakesAndLaddersBoardRow(current.getPrevious(), columnCount - 1);
         }
         if (lastNode == null) {
@@ -468,7 +465,9 @@ public class Board {
         Square lastNode = null;
         if (current != null && columnCount > 0) {
             lastNode = showSnakesAndLaddersRowInvested(current.getPrevious(), columnCount - 1);
-            System.out.print("[" + current.getStatus() + "] ");
+            String message = String.format("%7s", "[" + current.getStatus() + "] ");
+            System.out.print(message);
+
         } else {
             System.out.println();
         }
