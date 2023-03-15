@@ -3,6 +3,7 @@ package ui;
 import java.util.Scanner;
 
 import model.Board;
+import model.ScoreRegistry;
 
 public class Main {
 
@@ -28,8 +29,6 @@ public class Main {
             System.out.println("************************************************");
             switch (mainOption) {
                 case 1:
-                    long startTime = System.currentTimeMillis();
-                    long endTime = System.currentTimeMillis();
                     long totalTime = 0;
                     startGame();
                     showGameMenu();
@@ -46,8 +45,8 @@ public class Main {
     }
 
     public void showGameMenu() {
+        long startTime = System.currentTimeMillis();
         boolean stopFlag = false;
-
         System.out.print("\nBOARD GAME");
         board.showBoard();
 
@@ -60,10 +59,16 @@ public class Main {
             int mainOption = sc.nextInt();
             switch (mainOption) {
                 case 1:
-                    movePlayer();
+                    boolean flagPlayer = movePlayer();
+                    if(flagPlayer == true){
+                        long endTime = System.currentTimeMillis();
+                        double totalTime =  ((endTime-startTime)/1000.0);
+                        addPlayer2ScoreRegistry(totalTime);
+                        System.out.println("We have a winner, game over.");
+                        stopFlag = true;
+                    }
                     System.out.print("************************************************");
                     showGameMenu();
-                    stopFlag = true;
                     break;
                 case 2:
                     System.out.print("------------------------------------------------");
@@ -110,19 +115,23 @@ public class Main {
         }
     }
 
-    public void movePlayer() {
-        int squaresToMove = board.throwDice();
+    public void addPlayer2ScoreRegistry(double totalTime){
+        double score = (600-totalTime)/6.0;
+        board.addPlayer2ScoreRegistry(board.getTail(), score);
+    }
+
+    public boolean movePlayer() {
+        //int squaresToMove = board.throwDice();
+        int squaresToMove = 1;
         System.out.print("\nMove " + squaresToMove + " squares.\n");
         int turn = board.manageTurn();
-        boolean flag = board.movePlayer(board.searchPlayerSquare(board.manageTurnPlayer(turn)),
-                board.calculateSquares2Move(board.searchPlayerSquare(board.manageTurnPlayer(turn)),
-                        squaresToMove), board.manageTurnPlayer(turn));
-        if (flag == true) { //Se valida si el jugador llegó a la última casilla
-            System.out.println("Se movió"); //HAY QUE CORREGIR ESTO!!!
-        } else {
+        boolean flag = board.movePlayer(board.searchPlayerSquare(board.manageTurnPlayer()),
+                board.calculateSquares2Move(board.searchPlayerSquare(board.manageTurnPlayer()),
+                        squaresToMove), board.manageTurnPlayer());
+        if (flag != true) { //Se valida si el jugador llegó a la última casilla
             board.passTurn();
-            System.out.println("Se movió");
         }
+        return flag;
     }
 
     public String manageTurn(int turn) {

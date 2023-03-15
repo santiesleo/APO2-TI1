@@ -4,7 +4,7 @@ public class Player {
 
     //Datos
     String name;
-    String time;
+    double score;
 
     //Enlaces
     private Player right;
@@ -13,7 +13,7 @@ public class Player {
     //Constructor
     public Player(String name) {
         this.name = name;
-        this.time = "";
+        this.score = 0;
     }
 
     public String getName() {
@@ -24,12 +24,12 @@ public class Player {
         this.name = name;
     }
 
-    public String getTime() {
-        return time;
+    public double getScore() {
+        return score;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public Player getRight() {

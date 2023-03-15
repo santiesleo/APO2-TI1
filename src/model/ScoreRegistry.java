@@ -11,14 +11,14 @@ public class ScoreRegistry {
     }
 
     private void add(Player current, Player player){
-        if(player.getName().compareTo(current.getName()) < 0){
+        if(player.getScore() < current.getScore()){
             //Ingresar a la izquierda
             if(current.getLeft() == null){
                 current.setLeft(player);
             }else{
                 add(current.getLeft(), player);
             }
-        }else if (player.getName().compareTo(current.getName()) > 0){
+        }else if (player.getScore() > current.getScore()){
             //Ingresar a la derecha
             if(current.getRight() == null){
                 current.setRight(player);
@@ -28,6 +28,22 @@ public class ScoreRegistry {
         }else{
             //No hacer nada
         }
+    }
+
+    public void inOrder(){
+        inOrder(root);
+    }
+
+
+    private void inOrder(Player current){
+        if(current == null){
+            //current.getKey();
+            //System.out.println("No hay nada");
+            return;
+        }
+        inOrder(current.getLeft());//Menor a    //inOrder(current.getRight()); Mayor a
+        System.out.println(current.getName());   //System.out.println(current.getKey());
+        inOrder(current.getRight());// Mayor    //inOrder(current.getLeft()); Menor
     }
 
 

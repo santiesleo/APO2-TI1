@@ -1,5 +1,7 @@
 package model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 
 public class Board {
@@ -21,6 +23,10 @@ public class Board {
     private int rowsT = 1;
     private int s = 65;
     private int l = 1;
+
+    public Board() {
+        this.scoreRegistry = new ScoreRegistry();
+    }
 
     public Player getPlayer1() {
         return player1;
@@ -117,6 +123,7 @@ public class Board {
     public void setL(int l) {
         this.l += l;
     }
+    public Square getTail() {return tail;}
 
     public int manageTurn() {
         int turn;
@@ -130,7 +137,7 @@ public class Board {
         return turn;
     }
 
-    public Player manageTurnPlayer(int turn) {
+    public Player manageTurnPlayer() {
         Player player;
         if (getTurn() == 1) {
             player = player1;
@@ -225,13 +232,15 @@ public class Board {
     }
 
     //NO ESTÁ TERMINADO!!!
-    public void addPlayer2ScoreRegistry(Square square) {
+    public void addPlayer2ScoreRegistry(@NotNull Square square, double score) {
         if (square.getPlayer1() != null) {
-            //square.getPlayer1().setTime();
+            square.getPlayer1().setScore(score);
             scoreRegistry.add(square.getPlayer1());
         } else if (square.getPlayer2() != null) {
+            square.getPlayer2().setScore(score);
             scoreRegistry.add(square.getPlayer2());
         } else if (square.getPlayer3() != null) {
+            square.getPlayer3().setScore(score);
             scoreRegistry.add(square.getPlayer3());
         } else {
 
