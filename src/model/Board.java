@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.util.Random;
 
 public class Board {
@@ -21,8 +19,8 @@ public class Board {
     private int ladders;
     private int columnsT = 1;
     private int rowsT = 1;
-    private int s = 65;
-    private int l = 1;
+    private int snakesID = 65;
+    private int laddersID = 1;
 
     public Board() {
         this.scoreRegistry = new ScoreRegistry();
@@ -92,16 +90,20 @@ public class Board {
         this.ladders = ladders;
     }
 
-    public void setS(int s) {
-        this.s += s;
+    public int getSnakesID() {
+        return snakesID;
     }
 
-    public int getL() {
-        return l;
+    public void setSnakesID(int snakesID) {
+        this.snakesID += snakesID;
     }
 
-    public void setL(int l) {
-        this.l += l;
+    public int getLaddersID() {
+        return laddersID;
+    }
+
+    public void setLaddersID(int laddersID) {
+        this.laddersID += laddersID;
     }
     public Square getTail() {return tail;}
 
@@ -428,14 +430,14 @@ public class Board {
     }
 
     private void generateSnakes(Square current1, Square current2) {//Genera la union entre casillas para convertirse en serpiente
-        current1.setStatus(String.valueOf((char) s));
-        current2.setStatus(String.valueOf((char) s));
+        current1.setStatus(String.valueOf((char) snakesID));
+        current2.setStatus(String.valueOf((char) snakesID));
         current1.setSnake_Ladder(current2);
     }
 
     private void generateLadders(Square current1, Square current2) {//Genera la union entre casillas para convertirse en escalera
-        current1.setStatus(String.valueOf(l));
-        current2.setStatus(String.valueOf(l));
+        current1.setStatus(String.valueOf(laddersID));
+        current2.setStatus(String.valueOf(laddersID));
         current1.setSnake_Ladder(current2);
     }
 
@@ -485,7 +487,9 @@ public class Board {
         return lastNode;
     }
 
-    public void resetAll() { resetAll(getHead()); }
+    public void resetAll() {
+        resetAll(getHead());
+    }
 
     private void resetAll(Square current) {
         if (current == null) {
