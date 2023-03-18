@@ -29,7 +29,6 @@ public class Main {
             System.out.println("************************************************");
             switch (mainOption) {
                 case 1:
-                    long totalTime = 0;
                     startGame();
                     showGameMenu();
                     break;
