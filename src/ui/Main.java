@@ -91,7 +91,7 @@ public class Main {
                         long endTime = System.currentTimeMillis();
                         double totalTime =  ((endTime-startTime)/1000.0);
                         addPlayer2ScoreRegistry(totalTime); // Add the current player to the score registry
-                        System.out.println("\nWe have a winner, congratulations!");
+                        System.out.println("We have a winner, congratulations!");
                         board.scoreRanking(); // Display the scores for all players
                         resetAll(); // Reset the game state to start a new game
                         stopFlag = true; // Stop the game loop

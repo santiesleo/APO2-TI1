@@ -5,6 +5,7 @@ import java.util.Random;
 public class Board {
 
     public static final Random random = new Random();
+
     private ScoreRegistry scoreRegistry;
     private Square head;
     private Square tail;
