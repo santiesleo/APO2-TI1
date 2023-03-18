@@ -1,6 +1,7 @@
 package model;
 
 
+
 import java.util.Random;
 
 public class Board {
@@ -231,7 +232,7 @@ public class Board {
     }
 
     //NO ESTÁ TERMINADO!!!
-    public void addPlayer2ScoreRegistry( Square square, double score) {
+    public void addPlayer2ScoreRegistry(Square square, double score) {
         if (square.getPlayer1() != null) {
             square.getPlayer1().setScore(score);
             scoreRegistry.add(square.getPlayer1());

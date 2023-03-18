@@ -3,7 +3,6 @@ package ui;
 import java.util.Scanner;
 
 import model.Board;
-import model.ScoreRegistry;
 
 public class Main {
 
@@ -16,7 +15,8 @@ public class Main {
     }
 
     public void showMainMenu() {
-        System.out.print("WELCOME TO SNAKES AND LADDERS");
+        System.out.print("************************************************");
+        System.out.print("\nWELCOME TO SNAKES AND LADDERS");
         boolean stopFlag = false;
 
         while (!stopFlag) {
@@ -47,10 +47,11 @@ public class Main {
     public void showGameMenu() {
         long startTime = System.currentTimeMillis();
         boolean stopFlag = false;
-        System.out.print("\nBOARD GAME");
-        board.showBoard();
 
         while (!stopFlag) {
+            System.out.print("************************************************");
+            System.out.print("\nBOARD GAME");
+            board.showBoard();
             String message = manageTurn(board.manageTurn()); //Llamada al método manage turn de la clase Board que le envía el turno a la clase manage turn de la clase Main
             System.out.print("\n" + message // Imprime turno
                     + "\n[1] Throw dice"
@@ -60,15 +61,14 @@ public class Main {
             switch (mainOption) {
                 case 1:
                     boolean flagPlayer = movePlayer();
-                    if(flagPlayer == true){
+                    if(flagPlayer){
                         long endTime = System.currentTimeMillis();
                         double totalTime =  ((endTime-startTime)/1000.0);
                         addPlayer2ScoreRegistry(totalTime);
                         System.out.println("We have a winner, game over.");
+                        // AQUI PONER EL MÉTODO DE IMPRESIÓN DE PUNTAJE
                         stopFlag = true;
                     }
-                    System.out.print("************************************************");
-                    showGameMenu();
                     break;
                 case 2:
                     System.out.print("------------------------------------------------");
@@ -81,6 +81,7 @@ public class Main {
                     break;
             }
         }
+        showMainMenu();
     }
 
     private void startGame() {
@@ -96,8 +97,6 @@ public class Main {
         System.out.print("Enter the number of ladders: ");
         int ladders = sc.nextInt();
         board.setLadders(ladders);
-
-        System.out.print("************************************************");
 
         int measures = columns * rows; // Medidas del tablero
         board.setMeasures(measures);
@@ -121,14 +120,14 @@ public class Main {
     }
 
     public boolean movePlayer() {
-        //int squaresToMove = board.throwDice();
-        int squaresToMove = 1;
+        int squaresToMove = board.throwDice();
+        //int squaresToMove = 1;
         System.out.print("\nMove " + squaresToMove + " squares.\n");
         int turn = board.manageTurn();
         boolean flag = board.movePlayer(board.searchPlayerSquare(board.manageTurnPlayer()),
                 board.calculateSquares2Move(board.searchPlayerSquare(board.manageTurnPlayer()),
                         squaresToMove), board.manageTurnPlayer());
-        if (flag != true) { //Se valida si el jugador llegó a la última casilla
+        if (!flag) { //Se valida si el jugador llegó a la última casilla
             board.passTurn();
         }
         return flag;
