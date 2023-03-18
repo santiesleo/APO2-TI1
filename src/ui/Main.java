@@ -65,8 +65,10 @@ public class Main {
                         long endTime = System.currentTimeMillis();
                         double totalTime =  ((endTime-startTime)/1000.0);
                         addPlayer2ScoreRegistry(totalTime);
-                        System.out.println("We have a winner, game over.");
+                        System.out.println("We have a winner, congratulations!");
+                        board.scoreRanking();
                         // AQUI PONER EL MÉTODO DE IMPRESIÓN DE PUNTAJE
+                        resetAll();
                         stopFlag = true;
                     }
                     break;
@@ -82,6 +84,13 @@ public class Main {
             }
         }
         showMainMenu();
+    }
+
+    public void resetAll(){
+        board.setPlayer1(null);
+        board.setPlayer2(null);
+        board.setPlayer3(null);
+        board.resetAll();
     }
 
     private void startGame() {

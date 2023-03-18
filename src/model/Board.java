@@ -84,32 +84,12 @@ public class Board {
         this.measures = measures;
     }
 
-    public int getSnakes() {
-        return snakes;
-    }
-
     public void setSnakes(int snakes) {
         this.snakes = snakes;
     }
 
-    public int getLadders() {
-        return ladders;
-    }
-
     public void setLadders(int ladders) {
         this.ladders = ladders;
-    }
-
-    public ScoreRegistry getScoreRegistry() {
-        return scoreRegistry;
-    }
-
-    public void setScoreRegistry(ScoreRegistry scoreRegistry) {
-        this.scoreRegistry = scoreRegistry;
-    }
-
-    public int getS() {
-        return s;
     }
 
     public void setS(int s) {
@@ -124,6 +104,18 @@ public class Board {
         this.l += l;
     }
     public Square getTail() {return tail;}
+
+    public Square getHead() {
+        return head;
+    }
+
+    public void setHead(Square head) {
+        this.head = head;
+    }
+
+    public void setTail(Square tail) {
+        this.tail = tail;
+    }
 
     public int manageTurn() {
         int turn;
@@ -492,4 +484,27 @@ public class Board {
         }
         return lastNode;
     }
+
+    public void resetAll() { resetAll(getHead()); }
+
+    private void resetAll(Square current) {
+        if (current == null) {
+            return;
+        }
+        if (current.getNext() == null && current.getPrevious() == null) {
+            setHead(null);
+            setTail(null);
+            return;
+        }
+        if (current.getPrevious() == null) {
+            current.getNext().setPrevious(null);
+            setHead(current.getNext());
+            resetAll(getHead());
+        }
+    }
+
+    public void scoreRanking(){
+        scoreRegistry.reverseInOrder();
+    }
+
 }

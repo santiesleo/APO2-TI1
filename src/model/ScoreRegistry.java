@@ -30,20 +30,17 @@ public class ScoreRegistry {
         }
     }
 
-    public void inOrder(){
-        inOrder(root);
+    public void reverseInOrder(){
+        reverseInOrder(root);
     }
 
-
-    private void inOrder(Player current){
+    private void reverseInOrder(Player current){
         if(current == null){
-            //current.getKey();
-            //System.out.println("No hay nada");
             return;
         }
-        inOrder(current.getLeft());//Menor a    //inOrder(current.getRight()); Mayor a
-        System.out.println(current.getName());   //System.out.println(current.getKey());
-        inOrder(current.getRight());// Mayor    //inOrder(current.getLeft()); Menor
+        reverseInOrder(current.getRight());
+        System.out.print("Score: "+current.getScore()+", Player: "+current.getName()+"\n");
+        reverseInOrder(current.getLeft());
     }
 
 
