@@ -509,7 +509,10 @@ public class Board {
     }
 
     public void scoreRanking(){
+        System.out.println("------------------------------------------------\n" +
+                "RANKING\n");
         scoreRegistry.reverseInOrder();
+        System.out.println("------------------------------------------------\n");
     }
 
 }

@@ -3,8 +3,6 @@ package model;
 import java.text.DecimalFormat;
 
 public class ScoreRegistry {
-
-    public static final DecimalFormat df = new DecimalFormat("#.00000");
     private Player root;
 
     public void add(Player player) {
@@ -36,7 +34,7 @@ public class ScoreRegistry {
     }
 
     public void reverseInOrder() {
-        System.out.printf("%10s %22s", "PLAYER", "SCORE");
+        System.out.printf("|%10s\t   |    %4s    |", "PLAYER", "SCORE");
         System.out.println();
         reverseInOrder(root);
     }
@@ -46,7 +44,7 @@ public class ScoreRegistry {
             return;
         }
         reverseInOrder(current.getRight());
-        System.out.format("%10s %22s", current.getName(), df.format(current.getScore()));
+        System.out.format("|%10s\t   |    %.2f    |", current.getName(), current.getScore());
         System.out.println();
         reverseInOrder(current.getLeft());
     }
