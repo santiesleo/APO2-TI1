@@ -166,6 +166,7 @@ public class Board {
         this.scoreRegistry = scoreRegistry;
     }
 
+    //---------------ADD METHODS-----------------//
     /**
      * Add a Square object to the Board
      */
@@ -247,6 +248,7 @@ public class Board {
         addPlayers(current.getNext());
     }
 
+    //---------------GENERATE METHODS-----------------//
     /**
      * Generate snakes in the game board
      */
@@ -368,6 +370,158 @@ public class Board {
         current1.setStatus(String.valueOf(laddersID));
         current2.setStatus(String.valueOf(laddersID));
         current1.setSnake_Ladder(current2);
+    }
+
+    //---------------DISPLAY METHODS-----------------//
+    /**
+     * Displays the game board
+     */
+    public void showBoard() {
+        showBoard(tail, getRows(), getColumns());
+    }
+
+    private void showBoard(Square current, int rowCount, int columnCount) {
+        // Checks if the current Square is not null and there are still rows to print
+        if (current != null && rowCount > 0) {
+            // If the Square number is divisible by 2 times the column count, it means that it is the end of the row, so a new line is printed
+            if (current.getNum() % (columnCount * 2) == 0) {
+                System.out.println();
+                // Calls "showBoardRow" to print the row of Squares starting from the current Square and moves to the next row
+                current = showBoardRow(current, columnCount);
+                showBoard(current, rowCount - 1, columnCount);
+            } else {
+                // Calls "showBoardRowInvested" to print the row of Squares starting from the current Square and moves to the next row
+                current = showBoardRowInvested(current, columnCount);
+                showBoard(current, rowCount - 1, columnCount);
+            }
+        }
+    }
+
+    /**
+     * Prints a row of Squares in ascending order
+     * (ej: 1, 2, 3, 4, 5)
+     */
+    private Square showBoardRow(Square current, int columnCount) {
+        Square lastNode = null;
+        // Checks if the current Square is not null and there are still columns to print
+        if (current != null && columnCount > 0) {
+            // Calls "showPlayers" to get a string with the players on the current Square
+            String players = showPlayers(current);
+            // Formats a string with the Square number and the players on it
+            String message = String.format("%7s", "[" + current.getNum() + players + "] ");
+            // Prints the formatted string
+            System.out.print(message);
+            // Calls itself recursively to print the next Square in the row
+            lastNode = showBoardRow(current.getPrevious(), columnCount - 1);
+        }
+        // If there are no more Squares to print in the row, returns the last Square printed
+        if (lastNode == null) {
+            lastNode = current;
+        }
+        return lastNode;
+    }
+
+    /**
+     * Prints a row of Squares in descending order
+     * (ej: 5, 4, 3, 2, 1)
+     */
+    private Square showBoardRowInvested(Square current, int columnCount) { // Imprime de mayor a menor (ej: 5, 4, 3, 2, 1)
+        Square lastNode = null;
+        // Checks if the current Square is not null and there are still columns to print
+        if (current != null && columnCount > 0) {
+            // Calls itself recursively to print the next Square in the row
+            lastNode = showBoardRowInvested(current.getPrevious(), columnCount - 1);
+            // Calls "showPlayers" to get a string with the players on the current Square
+            String players = showPlayers(current);
+            // Formats a string with the Square number and the players on it
+            String message = String.format("%7s", "[" + current.getNum() + players + "] ");
+            // Prints the formatted string
+            System.out.print(message);
+        } else {
+            // If there are no more Squares to print in the row, prints a new line if there are no more Squares to print in the row
+            System.out.println();
+        }
+        // If there are no more Squares to print in the row, returns the last Square printed
+        if (lastNode == null) {
+            lastNode = current;
+        }
+        return lastNode;
+    }
+
+    /**
+     * Returns a String representing the names of the players associated with a specific "Square" object
+     */
+    private String showPlayers(Square current) {
+        // Create an empty String variable named "players"
+        String players = "";
+        // Check if the "current" Square object has a non-null Player1
+        if (current.getPlayer1() != null) {
+            // If the Player1 is not null, add the name of the Player1 to the "players" String variable
+            players = players + current.getPlayer1().getName();
+        }
+        // Check if the "current" Square object has a non-null Player2
+        if (current.getPlayer2() != null) {
+            // If the Player2 is not null, add the name of the Player2 to the "players" String variable
+            players = players + current.getPlayer2().getName();
+        }
+        // Check if the "current" Square object has a non-null Player3
+        if (current.getPlayer3() != null) {
+            // If the Player3 is not null, add the name of the Player3 to the "players" String variable
+            players = players + current.getPlayer3().getName();
+        }
+        return players;
+    }
+
+    /**
+     * Displays the game board with snakes and ladders
+     */
+    public void showSnakesAndLadders() {
+        showSnakesAndLadders(tail, getRows(), getColumns());
+    }
+
+    private void showSnakesAndLadders(Square current, int rowCount, int columnCount) {
+        // Performs the same process as the method "showBoard"
+        if (current != null && rowCount > 0) {
+            if (current.getNum() % (columnCount * 2) == 0) {
+                System.out.println();
+                current = showSnakesAndLaddersBoardRow(current, columnCount);
+                showSnakesAndLadders(current, rowCount - 1, columnCount);
+            } else {
+                current = showSnakesAndLaddersRowInvested(current, columnCount);
+                showSnakesAndLadders(current, rowCount - 1, columnCount);
+            }
+        }
+    }
+
+    private Square showSnakesAndLaddersBoardRow(Square current, int columnCount) {
+        // Performs the same process as the method "showBoardRow"
+        Square lastNode = null;
+        if (current != null && columnCount > 0) {
+            String message = String.format("%7s", "[" + current.getStatus() + "] ");
+            System.out.print(message);
+            lastNode = showSnakesAndLaddersBoardRow(current.getPrevious(), columnCount - 1);
+        }
+        if (lastNode == null) {
+            lastNode = current;
+        }
+        return lastNode;
+    }
+
+    private Square showSnakesAndLaddersRowInvested(Square current, int columnCount) {
+        // Performs the same process as the method "showBoardRowInvested"
+        Square lastNode = null;
+        if (current != null && columnCount > 0) {
+            lastNode = showSnakesAndLaddersRowInvested(current.getPrevious(), columnCount - 1);
+            String message = String.format("%7s", "[" + current.getStatus() + "] ");
+            System.out.print(message);
+
+        } else {
+            System.out.println();
+        }
+        if (lastNode == null) {
+            lastNode = current;
+        }
+        return lastNode;
     }
 
     public int manageTurn() {
@@ -492,119 +646,7 @@ public class Board {
         }
     }
 
-
-
-
-
-    public void showBoard() {
-        showBoard(tail, getRows(), getColumns());
-    }
-
-    private void showBoard(Square current, int rowCount, int columnCount) {
-        if (current != null && rowCount > 0) {
-            if (current.getNum() % (columnCount * 2) == 0) {
-                System.out.println();
-                current = showBoardRow(current, columnCount);
-                showBoard(current, rowCount - 1, columnCount);
-            } else {
-                current = showBoardRowInvested(current, columnCount);
-                showBoard(current, rowCount - 1, columnCount);
-            }
-        }
-    }
-
-    private Square showBoardRow(Square current, int columnCount) { // Imprime de menor a mayor (ej: 1, 2, 3, 4, 5)
-        Square lastNode = null;
-        if (current != null && columnCount > 0) {
-            String players = showPlayers(current);
-            String message = String.format("%7s", "[" + current.getNum() + players + "] ");
-            System.out.print(message);
-            lastNode = showBoardRow(current.getPrevious(), columnCount - 1);
-        }
-        if (lastNode == null) {
-            lastNode = current;
-        }
-        return lastNode;
-    }
-
-    private Square showBoardRowInvested(Square current, int columnCount) { // Imprime de mayor a menor (ej: 5, 4, 3, 2, 1)
-        Square lastNode = null;
-        if (current != null && columnCount > 0) {
-            lastNode = showBoardRowInvested(current.getPrevious(), columnCount - 1);
-            String players = showPlayers(current);
-            String message = String.format("%7s", "[" + current.getNum() + players + "] ");
-            System.out.print(message);
-        } else {
-            System.out.println();
-        }
-        if (lastNode == null) {
-            lastNode = current;
-        }
-        return lastNode;
-    }
-
-    private String showPlayers(Square current) {
-        String players = "";
-        if (current.getPlayer1() != null) {
-            players = players + current.getPlayer1().getName();
-        }
-        if (current.getPlayer2() != null) {
-            players = players + current.getPlayer2().getName();
-        }
-        if (current.getPlayer3() != null) {
-            players = players + current.getPlayer3().getName();
-        }
-        return players;
-    }
-
-
-
-    public void showSnakesAndLadders() {
-        showSnakesAndLadders(tail, getRows(), getColumns());
-    }
-
-    private void showSnakesAndLadders(Square current, int rowCount, int columnCount) {
-        if (current != null && rowCount > 0) {
-            if (current.getNum() % (columnCount * 2) == 0) {
-                System.out.println();
-                current = showSnakesAndLaddersBoardRow(current, columnCount);
-                showSnakesAndLadders(current, rowCount - 1, columnCount);
-            } else {
-                current = showSnakesAndLaddersRowInvested(current, columnCount);
-                showSnakesAndLadders(current, rowCount - 1, columnCount);
-            }
-        }
-    }
-
-    private Square showSnakesAndLaddersBoardRow(Square current, int columnCount) {
-        Square lastNode = null;
-        if (current != null && columnCount > 0) {
-            String message = String.format("%7s", "[" + current.getStatus() + "] ");
-            System.out.print(message);
-            lastNode = showSnakesAndLaddersBoardRow(current.getPrevious(), columnCount - 1);
-        }
-        if (lastNode == null) {
-            lastNode = current;
-        }
-        return lastNode;
-    }
-
-    private Square showSnakesAndLaddersRowInvested(Square current, int columnCount) {
-        Square lastNode = null;
-        if (current != null && columnCount > 0) {
-            lastNode = showSnakesAndLaddersRowInvested(current.getPrevious(), columnCount - 1);
-            String message = String.format("%7s", "[" + current.getStatus() + "] ");
-            System.out.print(message);
-
-        } else {
-            System.out.println();
-        }
-        if (lastNode == null) {
-            lastNode = current;
-        }
-        return lastNode;
-    }
-
+    //---------------RESET METHODS-----------------//
     public void resetAll() {
         resetAll(getHead());
     }

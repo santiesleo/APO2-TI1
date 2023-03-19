@@ -44,7 +44,7 @@ public class ScoreRegistry {
      */
     public void reverseInOrder() {
         // Print the table headers with appropriate spacing and formatting
-        System.out.printf("|%10s\t | %4s |", "PLAYER", "SCORE");
+        System.out.printf("|%10s\t   |    %4s    |", "PLAYER", "SCORE");
         // Move to a new line for the next line of the table
         System.out.println();
         // Call the private recursive method that will traverse the binary tree in reverse order starting from the root
@@ -58,7 +58,7 @@ public class ScoreRegistry {
         // Recursively call this method on the right subtree to start at the node with the highest score
         reverseInOrder(current.getRight());
         // Print the current player's name and score with appropriate formatting
-        System.out.format("|%7s\t   |    %.2f    |", current.getName(), current.getScore());
+        System.out.format("|%10s\t   |    %.2f    |", current.getName(), current.getScore());
         // Move to a new line for the next line of the table
         System.out.println();
         // Recursively call this method on the left subtree to traverse the rest of the tree in reverse order.
