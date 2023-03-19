@@ -2,7 +2,7 @@ package model;
 
 public class Square {
 
-    //Datos
+    // Data
     private int num;
     private int row;
     private int column;
@@ -10,11 +10,13 @@ public class Square {
     private Player player1;
     private Player player2;
     private Player player3;
-    //Enlaces
+
+    // Links
     private Square next;
     private Square previous;
     private Square snake_Ladder;
 
+    // Constructor
     public Square(int num) {
         this.num = num;
         this.row = 0;
@@ -25,6 +27,7 @@ public class Square {
         this.status = "";
     }
 
+    // Getters and setters
     public int getNum() {
         return num;
     }

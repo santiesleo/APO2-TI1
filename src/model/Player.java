@@ -2,20 +2,21 @@ package model;
 
 public class Player {
 
-    //Datos
+    // Data
     String name;
     double score;
 
-    //Enlaces
+    // Links
     private Player right;
     private Player left;
 
-    //Constructor
+    // Constructor
     public Player(String name, double score) {
         this.name = name;
         this.score = score;
     }
 
+    // Getters and Setters
     public String getName() {
         return name;
     }
