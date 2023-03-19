@@ -524,73 +524,57 @@ public class Board {
         return lastNode;
     }
 
+    //---------------MOVE METHODS-----------------//
+    /**
+     * Manages the turn and returns an integer value representing the current turn
+     */
     public int manageTurn() {
         int turn;
         if (getTurn() == 1) {
+            // If the current turn is 1, assign the 1 to "turn"
             turn = 1;
         } else if (getTurn() == 2) {
+            // If the current turn is 2, assign the 2 to "turn"
             turn = 2;
         } else {
+            // If the current turn is neither 1 nor 2, assign the  3 to "turn"
             turn = 3;
         }
+        // Return the value of "turn"
         return turn;
     }
 
+    /**
+     * Manages the turn and returns a Player object representing the current player
+     */
     public Player manageTurnPlayer() {
         Player player;
         if (getTurn() == 1) {
+            // If the current turn is 1, assign "player1" to "player"
             player = player1;
         } else if (getTurn() == 2) {
+            // If the current turn is 2, assign "player2" to "player"
             player = player2;
         } else {
+            // If the current turn is neither 1 nor 2, assign "player3" to "player"
             player = player3;
         }
+        // Return the Player object "player"
         return player;
     }
 
-    public void passTurn(){
-        if (getTurn() == 1) {
-            setTurn(2);
-        } else if (getTurn() == 2) {
-            setTurn(3);
-        } else {
-            setTurn(1);
-        }
-    }
-
+    /**
+     * Simulate the rolling of a dices, it returns a random integer between 1 and 6
+     */
     public int throwDice() {
-        Random rand = new Random();
-        return rand.nextInt(6) + 1;
+        return random.nextInt(6) + 1;
     }
 
-    public Square searchPlayerSquare(Player goal) {
-        return searchPlayerSquare(head, goal);
-    }
-
-    private Square searchPlayerSquare(Square current, Player goal) {
-        if (current == null) {
-            return null;
-        }
-        if (current.getPlayer1() == goal) {
-            return current;
-        } else if (current.getPlayer2() == goal) {
-            return current;
-        } else if (current.getPlayer3() == goal) {
-            return current;
-        }
-        return searchPlayerSquare(current.getNext(), goal);
-    }
-
-    public Square calculateSquares2Move(Square current, int squares2Advance) {
-        if (current == tail) {
-            return tail;
-        } else if (squares2Advance == 0) {
-            return current;
-        }
-        return calculateSquares2Move(current.getNext(), squares2Advance - 1);
-    }
-
+    /**
+     * Moves the player to new Square
+     */
     public boolean movePlayer(Square current, Square squareToMove, Player playerToMove) {
+        // If the Square to move to is the tail Square, then move the player to the tail Square and remove the player from the current Square
         if (squareToMove == tail) {
             if (current.getPlayer1() == playerToMove) {
                 tail.setPlayer1(playerToMove);
@@ -603,11 +587,16 @@ public class Board {
                 current.setPlayer3(null);
             }
             return true;
-        } else {
+        }
+        // Otherwise, if the Square to move to is not the tail Square, then move the player to that Square, and remove the player from the current Square
+        else {
             if (current.getPlayer1() == playerToMove) {
                 if (squareToMove.getSnake_Ladder() != null) {
+                    // If the Square to move to have a snake or a ladder, then move the player to the end of the snake/ladder
                     squareToMove.getSnake_Ladder().setPlayer1(playerToMove);
-                } else {
+                }
+                else {
+                    // Otherwise, move the player to the square. Repeat the same for the other cases
                     squareToMove.setPlayer1(playerToMove);
                 }
                 current.setPlayer1(null);
@@ -630,47 +619,121 @@ public class Board {
         }
     }
 
-    //NO ESTÁ TERMINADO!!!
-    public void addPlayer2ScoreRegistry(Square square, double score) {
-        if (square.getPlayer1().getName().equals("#")) {
-            Player player2Update = new Player("#", score);
-            scoreRegistry.add(player2Update);
-        } else if (square.getPlayer2().getName().equals("%")) {
-            Player player2Update = new Player("%", score);
-            scoreRegistry.add(player2Update);
-        } else if (square.getPlayer3().getName().equals("$")) {
-            Player player2Update = new Player("$", score);
-            scoreRegistry.add(player2Update);
-        } else {
+    /**
+     * Searches for a player's Square in a linked list of Squares
+     */
+    public Square searchPlayerSquare(Player goal) {
+        return searchPlayerSquare(head, goal);
+    }
 
+    private Square searchPlayerSquare(Square current, Player goal) {
+        // Checks if the current Square is null, and if it is, return null
+        if (current == null) {
+            return null;
+        }
+        if (current.getPlayer1() == goal) {
+            // If the first player in the current Square is the goal player, return the current Square
+            return current;
+        } else if (current.getPlayer2() == goal) {
+            // If the second player in the current Square is the goal player, return the current Square
+            return current;
+        } else if (current.getPlayer3() == goal) {
+            // If the third player in the current Square is the goal player, return the current Square
+            return current;
+        }
+        // Recursively call the method with the next Square in the linked list
+        return searchPlayerSquare(current.getNext(), goal);
+    }
+
+    /**
+     * Takes a current Square and a number of squares to advance
+     */
+    public Square calculateSquares2Move(Square current, int squares2Advance) {
+        if (current == tail) {
+            // If the current Square is the tail, we return the tail
+            return tail;
+        } else if (squares2Advance == 0) {
+            // If there are no Squares to advance, we return the current Square
+            return current;
+        }
+        // If neither of the above conditions are met, we recursively call the method with the next Square and a decreased number of Squares to advance
+        return calculateSquares2Move(current.getNext(), squares2Advance - 1);
+    }
+
+    /**
+     * Passes the turn to the next player
+     */
+    public void passTurn(){
+        if (getTurn() == 1) {
+            // If the current turn is 1, set the turn to 2
+            setTurn(2);
+        } else if (getTurn() == 2) {
+            // If the current turn is 2, set the turn to 3
+            setTurn(3);
+        } else {
+            // If the current turn is neither 1 nor 2, set the turn to 1
+            setTurn(1);
         }
     }
 
+    //---------------SCORE REGISTRY METHODS-----------------//
+
+    /**
+     * Adds the score of player to the score registry
+     */
+    public void addPlayer2ScoreRegistry(Square square, double score) {
+        if (square.getPlayer1().getName().equals("#")) {
+            // If the player in the tail is player 1, the score is added to the score registry
+            Player player2Update = new Player("#", score);
+            scoreRegistry.add(player2Update);
+        } else if (square.getPlayer2().getName().equals("%")) {
+            // If the player in the tail is player 2, the score is added to the score registry
+            Player player2Update = new Player("%", score);
+            scoreRegistry.add(player2Update);
+        } else if (square.getPlayer3().getName().equals("$")) {
+            // If the player in the tail is player 3, the score is added to the score registry
+            Player player2Update = new Player("$", score);
+            scoreRegistry.add(player2Update);
+        } else {
+            // If none of the conditions above are met, do nothing
+        }
+    }
+
+    /**
+     * Prints the ranking of players in the score registry in reverse order
+     */
+    public void scoreRanking(){
+        System.out.println("\t\t\tRANKING");
+        scoreRegistry.reverseInOrder();
+        System.out.print("------------------------------------------------\n");
+    }
+
     //---------------RESET METHODS-----------------//
+
+    /**
+     * Resets the board to its initial state
+     */
     public void resetAll() {
         resetAll(getHead());
     }
 
     private void resetAll(Square current) {
+        // If the current Square is null, then the end of the linked list has been reached, so return
         if (current == null) {
             return;
         }
+        // If the current Square is the only Square in the list, set both head and tail to null
         if (current.getNext() == null && current.getPrevious() == null) {
             setHead(null);
             setTail(null);
             return;
         }
+        // If the current Square is the head of the list, then set current to null and set the next Square as the new head and call resetAll() starting from the new head
         if (current.getPrevious() == null) {
             current.getNext().setPrevious(null);
             setHead(current.getNext());
             resetAll(getHead());
         }
-    }
-
-    public void scoreRanking(){
-        System.out.println("\t\t\tRANKING");
-        scoreRegistry.reverseInOrder();
-        System.out.print("------------------------------------------------\n");
     }
 
 }

@@ -19,7 +19,7 @@ public class Main {
      */
     public void showMainMenu() {
         // Display welcome message
-        System.out.println("************************************************");
+        System.out.println("**********************************************************");
         System.out.println("WELCOME TO SNAKES AND LADDERS");
 
         // Initialize stop flag for menu loop
@@ -27,7 +27,7 @@ public class Main {
 
         // Display main menu options until user chooses to exit
         while (!stopFlag) {
-            System.out.println("************************************************");
+            System.out.println("**********************************************************");
             System.out.println("MAIN MENU:");
             System.out.println("[1] Play");
             System.out.println("[2] Exit");
@@ -35,7 +35,7 @@ public class Main {
 
             // Read user input from console
             int mainOption = sc.nextInt();
-            System.out.println("************************************************");
+            System.out.println("**********************************************************");
 
             // Determine action based on user input
             switch (mainOption) {
@@ -45,7 +45,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("EXIT SUCCESSFULLY");
-                    System.out.println("************************************************");
+                    System.out.println("**********************************************************");
                     stopFlag = true;
                     break;
                 default:
@@ -69,7 +69,7 @@ public class Main {
         // Menu loop
         while (!stopFlag) {
             // Display menu options and current game state
-            System.out.println("************************************************");
+            System.out.println("**********************************************************");
             System.out.print("BOARD GAME");
             board.showBoard(); // Display the current state of the game board
             String message = manageTurn(board.manageTurn()); // Get the current turn message from the Board class
@@ -99,16 +99,16 @@ public class Main {
                     break;
                 case 2:
                     // If user selects option 2, display the Snakes and Ladders board
-                    System.out.println("------------------------------------------------");
+                    System.out.println("----------------------------------------------------------");
                     System.out.print("BOARD SNAKES AND LADDERS");
                     board.showSnakesAndLadders(); // Display the Snakes and Ladders board
-                    System.out.print("\n------------------------------------------------\n");
+                    System.out.print("\n----------------------------------------------------------\n");
                     break;
                 default:
                     // If user selects an option that is not available, display an error message
-                    System.out.println("------------------------------------------------");
+                    System.out.println("----------------------------------------------------------");
                     System.out.print("OPTION NOT AVAILABLE");
-                    System.out.print("\n------------------------------------------------\n");
+                    System.out.print("\n----------------------------------------------------------\n");
                     break;
             }
         }
@@ -122,10 +122,10 @@ public class Main {
         System.out.print("Enter the number of rows on the board: ");
         int rows = sc.nextInt();
         if (rows <= 1 || rows >= 90) {
-            System.out.println("------------------------------------------------");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Invalid number of rows, try again.");
-            System.out.println("------------------------------------------------");
-            System.out.println("************************************************");
+            System.out.println("----------------------------------------------------------");
+            System.out.println("**********************************************************");
             startGame();
             return;
         } else {
@@ -135,10 +135,10 @@ public class Main {
         System.out.print("Enter the number of columns on the board: ");
         int columns = sc.nextInt();
         if (columns <= 1 || columns >= 90) {
-            System.out.println("------------------------------------------------");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Invalid number of columns, try again.");
-            System.out.println("------------------------------------------------");
-            System.out.println("************************************************");
+            System.out.println("----------------------------------------------------------");
+            System.out.println("**********************************************************");
             startGame();
             return;
         } else {
@@ -150,17 +150,17 @@ public class Main {
         System.out.print("Enter the number of ladders: ");
         int ladders = sc.nextInt();
         if (snakes < 0 || ladders < 0) {
-            System.out.println("------------------------------------------------");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Invalid number of snakes or ladders, try again.");
-            System.out.println("------------------------------------------------");
-            System.out.println("************************************************");
+            System.out.println("----------------------------------------------------------");
+            System.out.println("**********************************************************");
             startGame();
             return;
         } else if (snakes + ladders >= ((board.getRows() * board.getColumns() - 2) / 2)) {
-            System.out.println("------------------------------------------------");
+            System.out.println("----------------------------------------------------------");
             System.out.println("Many snakes or ladders, try again.");
-            System.out.println("------------------------------------------------");
-            System.out.println("************************************************");
+            System.out.println("----------------------------------------------------------");
+            System.out.println("**********************************************************");
             startGame();
             return;
         } else {
@@ -194,7 +194,7 @@ public class Main {
     }
 
     /**
-     * The method manageTurn, takes the current turn as input and returns a message indicating which player's turn it is.
+     * The method manageTurn, takes the current turn as input and returns a message indicating which player's turn it is
      */
     public String manageTurn(int turn) {
         String message = "";
@@ -208,27 +208,33 @@ public class Main {
         return message;
     }
 
+    /**
+     * Moves the player to new Square
+     */
+    public boolean movePlayer() {
+        // Print to the console with the value of "squaresToMove"
+        int squaresToMove = board.throwDice();
+        System.out.println("----------------------------------------------------------");
+        System.out.print("Move " + squaresToMove + " squares.\n");
+        System.out.print("----------------------------------------------------------\n");
+        // Validates if the player reached the last square
+        boolean flag = board.movePlayer(board.searchPlayerSquare(board.manageTurnPlayer()),
+                board.calculateSquares2Move(board.searchPlayerSquare(board.manageTurnPlayer()), squaresToMove), board.manageTurnPlayer());
+        // If no player has reached the goal, move on to the next turn
+        if (!flag) {
+            board.passTurn();
+        }
+        return flag;
+    }
+
+    /**
+     * Adds the score of player to the score registry
+     */
     public void addPlayer2ScoreRegistry(double totalTime){
         double score = (600-totalTime)/6.0;
         board.addPlayer2ScoreRegistry(board.getTail(), score);
     }
 
-    public boolean movePlayer() {
-        int squaresToMove = board.throwDice();
-        System.out.println("------------------------------------------------");
-        System.out.print("Move " + squaresToMove + " squares.\n");
-        System.out.print("------------------------------------------------\n");
-
-        int turn = board.manageTurn();
-        boolean flag = board.movePlayer(board.searchPlayerSquare(board.manageTurnPlayer()),
-                board.calculateSquares2Move(board.searchPlayerSquare(board.manageTurnPlayer()),
-                        squaresToMove), board.manageTurnPlayer());
-        if (!flag) { //Se valida si el jugador llegó a la última casilla
-            board.passTurn();
-        }
-        return flag;
-    }
-    
     /**
      * The method resetAll, resets the board by setting all players to null, changing the IDs of snakes and ladders, and resetting the board state.
      */
