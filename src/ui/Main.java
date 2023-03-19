@@ -156,7 +156,7 @@ public class Main {
             System.out.println("************************************************");
             startGame();
             return;
-        } else if (snakes + ladders > ((board.getRows() * board.getColumns() - 2) / 2)) {
+        } else if (snakes + ladders >= ((board.getRows() * board.getColumns() - 2) / 2)) {
             System.out.println("------------------------------------------------");
             System.out.println("Many snakes or ladders, try again.");
             System.out.println("------------------------------------------------");
