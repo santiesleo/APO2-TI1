@@ -6,6 +6,23 @@ public class Board {
 
     public static final Random random = new Random();
 
+
+    public int getColumnsT() {
+        return columnsT;
+    }
+
+    public void setColumnsT(int columnsT) {
+        this.columnsT = columnsT;
+    }
+
+    public int getRowsT() {
+        return rowsT;
+    }
+
+    public void setRowsT(int rowsT) {
+        this.rowsT = rowsT;
+    }
+
     private ScoreRegistry scoreRegistry;
     private Square head;
     private Square tail;
@@ -83,8 +100,16 @@ public class Board {
         this.measures = measures;
     }
 
+    public int getSnakes() {
+        return snakes;
+    }
+
     public void setSnakes(int snakes) {
         this.snakes = snakes;
+    }
+
+    public int getLadders() {
+        return ladders;
     }
 
     public void setLadders(int ladders) {
@@ -106,6 +131,7 @@ public class Board {
     public void setLaddersID(int laddersID) {
         this.laddersID += laddersID;
     }
+
     public Square getTail() {return tail;}
 
     public Square getHead() {
@@ -359,6 +385,26 @@ public class Board {
         return players;
     }
 
+    public void generateSnakes() { // Genera los dos números aleatorios a buscar en los nodos para las serpientes
+        int start = random.nextInt(getMeasures() - 2) + 2;
+        int end = random.nextInt(getMeasures() - 2) + 2;
+        if (end != start) {
+            searchNodes(start, end, head, head, "SNAKES");
+        } else {
+            generateSnakes();
+        }
+    }
+
+    public void generateLadders() { // Genera los dos números aleatorios a buscar en los nodos para las serpientes
+        int start = random.nextInt(getMeasures() - 2) + 2;
+        int end = random.nextInt(getMeasures() - 2) + 2;
+        if (end != start) {
+            searchNodes(start, end, head, head, "LADDERS");
+        } else {
+            generateLadders();
+        }
+    }
+
     private void searchNodes(int start, int end, Square current1, Square current2, String type) {// Busca los nodos comparando con los números aleatorios
         if (current1.getNum() == start && current2.getNum() == end) {
             confirmStatus(current1, current2, type);
@@ -407,26 +453,6 @@ public class Board {
                     generateLadders(current2, current1);
                 }
             }
-        }
-    }
-
-    public void generateSnakes() { // Genera los dos números aleatorios a buscar en los nodos para las serpientes
-        int start = random.nextInt(getMeasures() - 2) + 2;
-        int end = random.nextInt(getMeasures() - 2) + 2;
-        if (end != start) {
-            searchNodes(start, end, head, head, "SNAKES");
-        } else {
-            generateSnakes();
-        }
-    }
-
-    public void generateLadders() { // Genera los dos números aleatorios a buscar en los nodos para las serpientes
-        int start = random.nextInt(getMeasures() - 2) + 2;
-        int end = random.nextInt(getMeasures() - 2) + 2;
-        if (end != start) {
-            searchNodes(start, end, head, head, "LADDERS");
-        } else {
-            generateLadders();
         }
     }
 
@@ -509,10 +535,9 @@ public class Board {
     }
 
     public void scoreRanking(){
-        System.out.println("------------------------------------------------\n" +
-                "RANKING\n");
+        System.out.println("\t\t\tRANKING");
         scoreRegistry.reverseInOrder();
-        System.out.println("------------------------------------------------\n");
+        System.out.print("------------------------------------------------\n");
     }
 
 }

@@ -1,8 +1,7 @@
 package model;
 
-import java.text.DecimalFormat;
-
 public class ScoreRegistry {
+
     private Player root;
 
     public void add(Player player) {

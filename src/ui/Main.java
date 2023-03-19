@@ -118,19 +118,55 @@ public class Main {
      * The method startGame, initialize the game, first request the board attributes and then generate the same
      */
     private void startGame() {
-        // Set board attributes
+        // Set rows of the board
         System.out.print("Enter the number of rows on the board: ");
         int rows = sc.nextInt();
-        board.setRows(rows);
+        if (rows <= 1 || rows >= 90) {
+            System.out.println("------------------------------------------------");
+            System.out.println("Invalid number of rows, try again.");
+            System.out.println("------------------------------------------------");
+            System.out.println("************************************************");
+            startGame();
+            return;
+        } else {
+            board.setRows(rows);
+        }
+        // Set columns of the board
         System.out.print("Enter the number of columns on the board: ");
         int columns = sc.nextInt();
-        board.setColumns(columns);
+        if (columns <= 1 || columns >= 90) {
+            System.out.println("------------------------------------------------");
+            System.out.println("Invalid number of columns, try again.");
+            System.out.println("------------------------------------------------");
+            System.out.println("************************************************");
+            startGame();
+            return;
+        } else {
+            board.setColumns(columns);
+        }
+        // Set number of snakes and ladders of the board
         System.out.print("Enter the number of snakes: ");
         int snakes = sc.nextInt();
-        board.setSnakes(snakes);
         System.out.print("Enter the number of ladders: ");
         int ladders = sc.nextInt();
-        board.setLadders(ladders);
+        if (snakes < 0 || ladders < 0) {
+            System.out.println("------------------------------------------------");
+            System.out.println("Invalid number of snakes or ladders, try again.");
+            System.out.println("------------------------------------------------");
+            System.out.println("************************************************");
+            startGame();
+            return;
+        } else if (snakes + ladders > ((board.getRows() * board.getColumns() - 2) / 2)) {
+            System.out.println("------------------------------------------------");
+            System.out.println("Many snakes or ladders, try again.");
+            System.out.println("------------------------------------------------");
+            System.out.println("************************************************");
+            startGame();
+            return;
+        } else {
+            board.setSnakes(snakes);
+            board.setLadders(ladders);
+        }
 
         // Board measurements
         int measures = columns * rows;
@@ -203,6 +239,8 @@ public class Main {
         board.setPlayer3(null);
         board.setSnakesID(-board.getSnakesID()+65);
         board.setLaddersID(-board.getLaddersID()+1);
+        board.setColumnsT(1);
+        board.setRowsT(1);
         board.resetAll();
     }
 
