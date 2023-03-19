@@ -11,9 +11,9 @@ public class Player {
     private Player left;
 
     //Constructor
-    public Player(String name) {
+    public Player(String name, double score) {
         this.name = name;
-        this.score = 0;
+        this.score = score;
     }
 
     public String getName() {

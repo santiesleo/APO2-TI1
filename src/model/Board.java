@@ -228,15 +228,15 @@ public class Board {
 
     //NO ESTÁ TERMINADO!!!
     public void addPlayer2ScoreRegistry(Square square, double score) {
-        if (square.getPlayer1() != null) {
-            square.getPlayer1().setScore(score);
-            scoreRegistry.add(square.getPlayer1());
-        } else if (square.getPlayer2() != null) {
-            square.getPlayer2().setScore(score);
-            scoreRegistry.add(square.getPlayer2());
-        } else if (square.getPlayer3() != null) {
-            square.getPlayer3().setScore(score);
-            scoreRegistry.add(square.getPlayer3());
+        if (square.getPlayer1().getName().equals("#")) {
+            Player player2Update = new Player("#", score);
+            scoreRegistry.add(player2Update);
+        } else if (square.getPlayer2().getName().equals("%")) {
+            Player player2Update = new Player("%", score);
+            scoreRegistry.add(player2Update);
+        } else if (square.getPlayer3().getName().equals("$")) {
+            Player player2Update = new Player("$", score);
+            scoreRegistry.add(player2Update);
         } else {
 
         }
@@ -251,9 +251,9 @@ public class Board {
             return;
         }
         if (head.getPlayer1() == null && head.getPlayer2() == null && head.getPlayer3() == null) {
-            Player player1 = new Player("#");
-            Player player2 = new Player("%");
-            Player player3 = new Player("$");
+            Player player1 = new Player("#", 0);
+            Player player2 = new Player("%", 0);
+            Player player3 = new Player("$", 0);
             setPlayer1(player1);
             setPlayer2(player2);
             setPlayer3(player3);
@@ -261,9 +261,9 @@ public class Board {
             head.setPlayer2(player2);
             head.setPlayer3(player3);
         } else {
-            current.setPlayer1(new Player(""));
-            current.setPlayer2(new Player(""));
-            current.setPlayer3(new Player(""));
+            current.setPlayer1(new Player("", 0));
+            current.setPlayer2(new Player("", 0));
+            current.setPlayer3(new Player("", 0));
         }
         addPlayers(current.getNext());
     }

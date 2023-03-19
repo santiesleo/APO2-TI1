@@ -44,7 +44,7 @@ public class ScoreRegistry {
             return;
         }
         reverseInOrder(current.getRight());
-        System.out.format("|%10s\t   |    %.2f    |", current.getName(), current.getScore());
+        System.out.format("|%7s\t   |    %.2f    |", current.getName(), current.getScore());
         System.out.println();
         reverseInOrder(current.getLeft());
     }
